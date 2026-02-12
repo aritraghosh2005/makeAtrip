@@ -5,6 +5,20 @@ const numPersonsInput = document.getElementById("numPersons");
 const bookingForm = document.getElementById("bookingForm");
 let currentPrice = 0;
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // --- DESTINATION PAGE LOGIC (Ooty, Coorg, Pondi) ---
 
 // Only runs if the Modal exists on the page
@@ -65,6 +79,21 @@ if (bookingForm) {
         }
     };
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // --- BOOKING.HTML LOGIC (Itinerary Summary) ---
 

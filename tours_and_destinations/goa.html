@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Activities in Goa</title>
+    <link rel="stylesheet" href="destinations.css">
+</head>
+<body>
+    <header class="hero-section">
+        <div id="navigation">
+         <nav>
+                <button class="btn" onclick="location.href='bookings.html'">View Bookings</button>
+        </nav>
+    </div>
+        <h1>Showing Activities in Goa</h1>
+    </header>
+
+    <main class="container">
+        <div class="card">
+            <div class="badge">Adventure</div>
+            <img src="tours_images/goa-scuba.jpg" alt="Scuba Diving">
+            <div class="card-content">
+                <h2>Grand Island Scuba Diving</h2>
+                <div class="activity-info">
+                    <span>🕒 6 Hours</span><br>
+                    <span>✓ Includes boat ride & snacks</span>
+                </div>
+                <p>Explore the vibrant coral reefs and marine life of the Arabian Sea with professional divers.</p>
+                <div class="price-tag">₹2500 <span>per person</span></div>
+                <button class="btn" onclick="openBooking('Grand Island Scuba', 2500)">Book Now</button>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="badge">Heritage</div>
+            <img src="tours_images/goa-church.jpg" alt="Old Goa Church">
+            <div class="card-content">
+                <h2>Old Goa Heritage Walk</h2>
+                <div class="activity-info">
+                    <span>🕒 3 Hours</span><br>
+                    <span>✓ UNESCO World Heritage site</span>
+                </div>
+                <p>Visit historic landmarks like the Basilica of Bom Jesus and Se Cathedral.</p>
+                <div class="price-tag">₹0 <span>Free Entry</span></div>
+                <button class="btn" onclick="openBooking('Old Goa Heritage Walk', 0)">Book Now</button>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="badge">Leisure</div>
+            <img src="tours_images/goa-cruise.jpg" alt="River Cruise">
+            <div class="card-content">
+                <h2>Mandovi River Sunset Cruise</h2>
+                <div class="activity-info">
+                    <span>🕒 1.5 Hours</span><br>
+                    <span>✓ Includes Folk Dance & DJ</span>
+                </div>
+                <p>Relax on a scenic cruise with traditional Goan music and sunset views.</p>
+                <div class="price-tag">₹600 <span>per adult</span></div>
+                <button class="btn" onclick="openBooking('Sunset Cruise', 600)">Book Now</button>
+            </div>
+        </div>
+    </main>
+   
+
+    <div id="bookingModal" class="modal">
+    <div class="modal-content">
+        <span class="close-btn">&times;</span>
+        <h2>Book Your Activity</h2>
+        <form id="bookingForm">
+            <label for="activityName">Activity:</label>
+            <input type="text" id="activityName" readonly>
+
+            <label for="bookingDate">Select Date:</label>
+            <input type="date" id="bookingDate" required>
+
+            <label for="numPersons">Number of Persons:</label>
+            <input type="number" id="numPersons" min="1" value="1" required>
+
+            <div class="total-price">
+                Total Amount: ₹<span id="displayTotal">0</span>
+            </div>
+
+            <button type="submit" class="btn">Confirm Booking</button>
+        </form>
+    </div>
+</div>
+
+<div id="bookingModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal()">&times;</span>
+            <h2>Book Your Activity</h2>
+            <form id="bookingForm">
+                <label>Activity:</label>
+                <input type="text" id="activityName" readonly>
+
+                <label>Select Date:</label>
+                <input type="date" id="bookingDate" required>
+
+                <label>Persons:</label>
+                <input type="number" id="numPersons" min="1" value="1" required>
+
+                <div class="total-price">
+                    Total: ₹<span id="displayTotal">0</span>
+                </div>
+
+                <button type="submit" class="btn">Confirm & Save</button>
+            </form>
+        </div>
+    </div>
+
+         <div style="text-align: center; margin-bottom: 50px;">
+        <button class="btn" onclick="location.href='tours_index.html'">Back to Destinations</button>
+    </div>
+    
+
+    <script src="tours_script.js"></script>
+</body>
+</html>
