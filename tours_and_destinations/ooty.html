@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Activities in Ooty</title>
+    <link rel="stylesheet" href="destinations.css">
+    
+</head>
+<body>
+    <header class="hero-section" style="height: 25vh;">
+        <div id="navigation">
+         <nav>
+                <button class="btn" onclick="location.href='bookings.html'">View Bookings</button>
+        </nav>
+    </div>
+        <h1>Showing Activities in Ooty</h1>
+    </header>
+
+    <main class="container">
+        <div class="card">
+            <div class="badge">Heritage</div>
+            <img src="tours_images/ooty-Nilgiris.jpg" alt="Toy Train">
+            <div class="card-content">
+                <h2>Nilgiri Mountain Railway</h2>
+                <div class="activity-info">
+                    <span>🕒 5 Hours</span><br>
+                    <span>✓ UNESCO World Heritage</span>
+                </div>
+                <p>Ride the historic steam engine through tunnels and over high bridges.</p>
+                <div class="price-tag">₹450 <span>per adult</span></div>
+                <button class="btn" onclick="openBooking('Nilgiri Railway', 450)">Book Now</button>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="badge">Theme Park</div>
+            <img src="https://images.unsplash.com/photo-1542332213-31f87348057f?w=500" alt="Water Park">
+            <div class="card-content">
+                <h2>Black Thunder Water Park</h2>
+                <div class="activity-info">
+                    <span>🕒 Full Day</span><br>
+                    <span>✓ Student Discount available</span>
+                </div>
+                <p>One of the best water theme parks in India with over 40 exciting rides.</p>
+                <div class="price-tag">₹890 <span>per student</span></div>
+                <button class="btn" onclick="openBooking('Black Thunder Water Park', 890)">Book Now</button>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="badge">Adventure</div>
+            <img src="tours_images/ooty-skybridge.jpg" alt="Sky Bridge">
+            <div class="card-content">
+                <h2>Experiential Sky Bridge</h2>
+                <div class="activity-info">
+                    <span>🕒 20 Mins</span><br>
+                    <span>✓ Safety gear included</span>
+                </div>
+                <p>Walk across a hanging bridge for a thrilling view of the Nilgiri hills.</p>
+                <div class="price-tag">₹230 <span>per adult</span></div>
+                <button class="btn" onclick="openBooking('Sky Bridge', 230)">Book Now</button>
+            </div>
+        </div>
+    </main>
+
+    <div id="bookingModal" class="modal">
+    <div class="modal-content">
+        <span class="close-btn">&times;</span>
+        <h2>Book Your Activity</h2>
+        <form id="bookingForm">
+            <label for="activityName">Activity:</label>
+            <input type="text" id="activityName" readonly>
+
+            <label for="bookingDate">Select Date:</label>
+            <input type="date" id="bookingDate" required>
+
+            <label for="numPersons">Number of Persons:</label>
+            <input type="number" id="numPersons" min="1" value="1" required>
+
+            <div class="total-price">
+                Total Amount: ₹<span id="displayTotal">0</span>
+            </div>
+
+            <button type="submit" class="btn">Confirm Booking</button>
+        </form>
+    </div>
+</div>
+
+<div id="bookingModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal()">&times;</span>
+            <h2>Book Your Activity</h2>
+            <form id="bookingForm">
+                <label>Activity:</label>
+                <input type="text" id="activityName" readonly>
+
+                <label>Select Date:</label>
+                <input type="date" id="bookingDate" required>
+
+                <label>Persons:</label>
+                <input type="number" id="numPersons" min="1" value="1" required>
+
+                <div class="total-price">
+                    Total: ₹<span id="displayTotal">0</span>
+                </div>
+
+                <button type="submit" class="btn">Confirm & Save</button>
+            </form>
+        </div>
+    </div>
+
+    <div style="text-align: center; margin-bottom: 50px;">
+        <button class="btn" onclick="location.href='tours_index.html'">Back to Destinations</button>
+    </div>
+
+    <script src="tours_script.js"></script>
+</body>
+</html>

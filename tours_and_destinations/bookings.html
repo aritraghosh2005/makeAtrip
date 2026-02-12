@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Bookings | Travel Explorer</title>
+    <link rel="stylesheet" href="destinations.css">
+    <link rel="stylesheet" href="bookings.css">
+</head>
+<body>
+
+    <header class="hero-section">
+        <h1>My Itinerary</h1>
+    </header>
+
+    <main class="container">
+        <h2>My Booked Trips</h2><br>
+        
+        <div id="no-bookings">
+            <p>No bookings found. Start exploring!</p>
+        </div>
+
+        <table id="bookingsTable" >
+            <thead>
+                <tr>
+                    <th>Activity</th>
+                    <th>Date</th>
+                    <th>Persons</th>
+                    <th>Total Price</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="bookingsList">
+                </tbody>
+        </table>
+        
+        <div class="booking-actions">
+            <button class="btn" onclick="location.href='tours_index.html'">Back to Home</button>
+            <button class="btn btn-danger" onclick="clearAllBookings()">Clear All Bookings</button>
+        </div>
+    </main>
+
+    <script src="tours_script.js"></script>
+</body>
+</html>
