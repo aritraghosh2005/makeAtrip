@@ -1,4 +1,4 @@
-/* Reset and Base Styles */
+/* RESET */
 * {
     margin: 0;
     padding: 0;
@@ -9,102 +9,128 @@ body {
     height: 100vh;
     width: 100vw;
     font-family: 'Playfair Display', serif;
-    overflow: hidden; /* Prevents scrolling */
+    overflow: hidden;
 }
 
-/* Main Container - The 3-Column Grid */
+/* --- NEW TOP BAR --- */
+.top-bar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 20px 40px;
+    display: flex;
+    justify-content: flex-end; /* Pushes icon to the right */
+    z-index: 100; /* Stays on top of everything */
+}
+
+.account-btn {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem;
+    color: #333; /* Dark text for contrast against cream bg */
+    transition: transform 0.3s;
+}
+
+.account-btn i {
+    font-size: 2rem;
+    color: #FF6B6B; /* Matches your other icons */
+}
+
+.account-btn:hover {
+    transform: scale(1.05);
+}
+
+/* --- LAYOUT GRID --- */
 .container {
     display: flex;
     height: 100%;
     width: 100%;
 }
 
-/* Shared Panel Styles */
 .panel {
     display: flex;
     flex-direction: column;
-    justify-content: space-around; /* Spreads items vertically */
+    justify-content: space-around;
     align-items: center;
+    height: 100%;
     transition: all 0.3s ease;
 }
 
-/* Side Panels (Cream Background) */
+/* Side Panels */
 .side-panel {
     flex: 1; /* Takes up 1 part of space */
-    background-color: #f0ebe0; /* Light Cream matching your image */
-    padding: 2rem;
+    background-color: #F2E8DC;
 }
 
-/* Center Panel (Rust/Brown Background) */
+/* Center Panel - MADE WIDER */
 .center-panel {
-    flex: 1.5; /* Slightly wider than sides */
-    background-color: #8b3a26; /* The specific rust/brown from your image */
-    justify-content: center; /* Centers text perfectly */
-    position: relative;
+    flex: 2.5; /* UPDATED: Increased from 1.2 to 2.5 */
+    background-color: #8B4513;
+    justify-content: center;
     z-index: 10;
 }
 
-/* Typography for "MAKE A TRIP" */
+/* Typography */
 .hero-text {
     text-align: center;
-    color: #f0ebe0; /* Text matches side background */
-    line-height: 0.85; /* Tight spacing like the image */
+    color: #F2E8DC;
+    line-height: 0.8;
 }
 
 .hero-text h1 {
-    font-size: 15vw; /* Responsive huge text */
-    font-weight: 400; /* Regular weight looks more elegant */
-    letter-spacing: -5px; /* Tight tracking */
+    font-size: 16vw; /* Slightly larger text to fit new width */
+    font-weight: 400;
     margin: 0;
-    text-transform: uppercase;
+    letter-spacing: -2px;
 }
 
-/* The Navigation Buttons (Icons) */
+/* Buttons & Icons */
 .nav-btn {
     background: none;
     border: none;
     cursor: pointer;
-    color: #ff5e57; /* The Coral Red from your image */
-    font-size: 4rem; /* Big icons */
-    transition: transform 0.2s ease, color 0.2s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    transition: transform 0.3s ease;
     position: relative;
 }
 
-.nav-btn:hover {
-    transform: scale(1.1); /* Pop effect */
-    color: #d63031; /* Darker red on hover */
+.nav-btn i {
+    font-size: 4rem;
+    color: #FF6B6B;
 }
 
-/* Simple Tooltip for UX */
 .tooltip {
-    position: absolute;
-    bottom: -30px;
-    left: 50%;
-    transform: translateX(-50%);
-    font-size: 1rem;
-    font-family: sans-serif;
-    color: #333;
+    font-size: 1.2rem;
+    font-weight: 900;
+    color: #8B4513;
     opacity: 0;
-    transition: opacity 0.3s;
-    white-space: nowrap;
+    transform: translateY(10px);
+    transition: all 0.3s ease;
+}
+
+.nav-btn:hover {
+    transform: scale(1.1);
 }
 
 .nav-btn:hover .tooltip {
     opacity: 1;
+    transform: translateY(0);
 }
 
 /* Mobile Responsiveness */
 @media (max-width: 768px) {
-    .container {
-        flex-direction: column; /* Stack vertically on phones */
-    }
-    
-    .hero-text h1 {
-        font-size: 20vh; /* Adjust for vertical stacking */
-    }
-
-    .side-panel {
-        flex-direction: row; /* Icons side-by-side on mobile */
-        padding: 1rem;
-    }
+    .container { flex-direction: column; }
+    .center-panel { flex: 1; order: -1; } /* Center panel shrinks on mobile */
+    .hero-text h1 { font-size: 18vh; }
+    .side-panel { flex-direction: row; }
+    .account-btn .user-text { display: none; } /* Hide text on mobile */
 }

@@ -12,7 +12,7 @@ function navigateTo(section) {
         // 2. "Homestays & Villas" Button (Left Bottom)
         // Links to your teammate's booking page
         case 'hotels':
-            window.location.href = "./tours_and_destinations/bookings.html";
+            window.location.href = "./hotels/index.html"; // UPDATED PATH
             break;
 
         // 3. "Travel" Button (Right Top) -> THIS IS YOUR PART

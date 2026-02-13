@@ -1,0 +1,123 @@
+/* ... Keep imports, body, and hero section exactly as they were ... */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&display=swap');
+
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Playfair Display', serif; }
+
+body { background-color: #F2E8DC; color: #4a2c2a; }
+
+/* Keep Hero Section same as before */
+.hero-section {
+    background: linear-gradient(rgba(139, 69, 19, 0.5), rgba(74, 44, 42, 0.7)), 
+                url('hotel_images/banner.jpg');
+    background-size: cover;
+    background-position: center;
+    height: 60vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: #F2E8DC;
+}
+
+.hero-content h1 { font-size: 5rem; margin-bottom: 10px; letter-spacing: -2px; text-transform: uppercase; }
+.hero-content p { font-size: 1.5rem; font-style: italic; letter-spacing: 1px; }
+
+/* --- NEW LAYOUT: SIDEBAR + GRID --- */
+.container {
+    width: 100%;      /* Forces container to take full screen width */
+    max-width: 100%;  /* Removes the "centered box" limit */
+    margin-top: -80px; /* Keeps the overlap effect */
+    padding: 0 0 50px 10px; /* Top 0, Right 0, Bottom 50px, Left 10px (Very close to edge) */
+    display: flex;
+    gap: 20px;        /* Space between sidebar and grid */
+    align-items: flex-start;
+    position: relative;
+    z-index: 10;
+}
+
+/* 1. SIDEBAR STYLES (Left Edge) */
+.sidebar {
+    flex: 0 0 220px; /* Fixed width */
+    background: white;
+    padding: 20px;
+    border: 1px solid #8B4513;
+    box-shadow: 5px 5px 0px rgba(139, 69, 19, 0.15);
+    position: sticky;
+    top: 20px;
+    height: fit-content;
+}
+
+.filter-box h3 {
+    font-size: 1.1rem; /* Slightly smaller text */
+    color: #8B4513;
+    margin-bottom: 15px;
+    border-bottom: 2px solid #F2E8DC;
+    padding-bottom: 10px;
+}
+
+.filter-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.filter-btn {
+    background: transparent;
+    border: 1px solid #8B4513;
+    padding: 10px;
+    text-align: left;
+    font-family: 'Playfair Display', serif;
+    font-size: 0.9rem;
+    color: #4a2c2a;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.filter-btn:hover, .filter-btn.active {
+    background: #8B4513;
+    color: #F2E8DC;
+    padding-left: 15px; /* Slide effect */
+}
+
+/* 2. HOTEL GRID STYLES */
+.hotel-grid {
+    flex: 1; /* Takes all remaining space */
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    justify-content: flex-start; /* Aligns cards to left */
+    padding-right: 20px; /* Adds space on the right edge */
+}
+
+/* --- CARD STYLES (Same as before) --- */
+.card {
+    background: white;
+    width: 320px; /* Slightly smaller to fit 3 in a row */
+    border: 1px solid #8B4513;
+    box-shadow: 10px 10px 0px rgba(139, 69, 19, 0.2);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    position: relative;
+    display: block; /* Important for filtering */
+}
+
+.card:hover { transform: translateY(-10px) translate(5px, 5px); box-shadow: 5px 5px 0px rgba(139, 69, 19, 0.4); }
+
+.img-container { height: 200px; overflow: hidden; border-bottom: 1px solid #8B4513; position: relative; }
+.card img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; filter: sepia(20%); }
+.card:hover img { transform: scale(1.1); filter: sepia(0%); }
+
+.price-badge { position: absolute; bottom: 0; right: 0; background: #8B4513; color: #F2E8DC; padding: 5px 15px; font-weight: bold; font-family: 'Segoe UI', sans-serif; }
+.card-content { padding: 25px; text-align: center; background-color: #fffaf0; }
+.card-content h2 { font-size: 1.4rem; margin-bottom: 5px; color: #8B4513; text-transform: uppercase; }
+.card-content .location { font-family: 'Segoe UI', sans-serif; font-size: 0.9rem; color: #888; margin-bottom: 15px; font-weight: bold; }
+.card-content .desc { font-family: 'Segoe UI', sans-serif; font-size: 0.9rem; color: #555; line-height: 1.5; margin-bottom: 20px; }
+
+.btn { background-color: #8B4513; color: #F2E8DC; border: 1px solid #8B4513; padding: 10px 25px; font-family: 'Playfair Display', serif; font-weight: 700; text-transform: uppercase; cursor: pointer; transition: all 0.3s; }
+.btn:hover { background-color: transparent; color: #8B4513; }
+
+/* Navigation Overlay Buttons (Keep same) */
+.nav-overlay-btn { position: absolute; top: 20px; z-index: 200; background: rgba(242, 232, 220, 0.95); color: #8B4513; border: 1px solid #8B4513; padding: 12px 25px; font-family: 'Playfair Display', serif; font-weight: 700; text-transform: uppercase; font-size: 0.9rem; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; gap: 10px; box-shadow: 4px 4px 0px rgba(139, 69, 19, 0.2); }
+.nav-overlay-btn:hover { background: #8B4513; color: #F2E8DC; transform: translateY(-2px); box-shadow: 2px 2px 0px rgba(139, 69, 19, 0.4); }
+.left-btn { left: 20px; }
+.right-btn { right: 20px; }

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stays | Make A Trip</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <button class="nav-overlay-btn left-btn" onclick="location.href='../index.html'">
+        <i class="fa-solid fa-arrow-left"></i> Back to Home
+    </button>
+    <button class="nav-overlay-btn right-btn" onclick="location.href='../tours_and_destinations/tours_index.html'">
+        <i class="fa-solid fa-map-location-dot"></i> View Tours
+    </button>
+
+    <header class="hero-section">
+        <div class="hero-content">
+            <h1>Stay In Comfort</h1>
+            <p>Handpicked villas, homestays, and luxury resorts</p>
+        </div>
+    </header>
+
+    <main class="container">
+        
+        <aside class="sidebar">
+            <div class="filter-box">
+                <h3><i class="fa-solid fa-filter"></i> Filter By Location</h3>
+                <div class="filter-buttons">
+                    <button class="filter-btn active" onclick="filterHotels('all')">Show All</button>
+                    <button class="filter-btn" onclick="filterHotels('Goa')">Goa</button>
+                    <button class="filter-btn" onclick="filterHotels('Ooty')">Ooty</button>
+                    <button class="filter-btn" onclick="filterHotels('Pondicherry')">Pondicherry</button>
+                </div>
+            </div>
+        </aside>
+
+        <div class="hotel-grid">
+            
+            <div class="card" data-location="Goa">
+                <div class="img-container">
+                    <img src="hotel_images/beach_paradise_resort.png" alt="Beach Paradise">
+                    <div class="price-badge">₹4,500</div>
+                </div>
+                <div class="card-content">
+                    <h2>Beach Paradise Resort</h2>
+                    <p class="location"><i class="fa-solid fa-location-dot"></i> Baga Beach, Goa</p>
+                    <p class="desc">Luxury beachfront stay with private pool access.</p>
+                    <button class="btn" onclick="alert('Booking Feature Coming Soon!')">Book Now</button>
+                </div>
+            </div>
+
+            <div class="card" data-location="Goa">
+                <div class="img-container">
+                    <img src="hotel_images/palm_grove_homestay.jpg" alt="Palm Grove">
+                    <div class="price-badge">₹2,200</div>
+                </div>
+                <div class="card-content">
+                    <h2>Palm Grove Homestay</h2>
+                    <p class="location"><i class="fa-solid fa-location-dot"></i> Anjuna, Goa</p>
+                    <p class="desc">Cozy traditional cottage surrounded by coconut trees.</p>
+                    <button class="btn" onclick="alert('Booking Feature Coming Soon!')">Book Now</button>
+                </div>
+            </div>
+
+            <div class="card" data-location="Ooty">
+                <div class="img-container">
+                    <img src="hotel_images/misty_mountain_resort.jpg" alt="Misty Mountain">
+                    <div class="price-badge">₹3,500</div>
+                </div>
+                <div class="card-content">
+                    <h2>Misty Mountain Resort</h2>
+                    <p class="location"><i class="fa-solid fa-location-dot"></i> Doddabetta, Ooty</p>
+                    <p class="desc">Wake up to the view of the clouds covering the hills.</p>
+                    <button class="btn" onclick="alert('Booking Feature Coming Soon!')">Book Now</button>
+                </div>
+            </div>
+
+            <div class="card" data-location="Ooty">
+                <div class="img-container">
+                    <img src="hotel_images/hilltop_cottage.jpg" alt="Hilltop Cottage">
+                    <div class="price-badge">₹2,800</div>
+                </div>
+                <div class="card-content">
+                    <h2>Hilltop Cottage</h2>
+                    <p class="location"><i class="fa-solid fa-location-dot"></i> Botanical Garden Rd</p>
+                    <p class="desc">Colonial-style cottage perfect for family getaways.</p>
+                    <button class="btn" onclick="alert('Booking Feature Coming Soon!')">Book Now</button>
+                </div>
+            </div>
+
+            <div class="card" data-location="Pondicherry">
+                <div class="img-container">
+                    <img src="hotel_images/ocean_breeze_hotel.jpg" alt="Ocean Breeze">
+                    <div class="price-badge">₹3,000</div>
+                </div>
+                <div class="card-content">
+                    <h2>Ocean Breeze Hotel</h2>
+                    <p class="location"><i class="fa-solid fa-location-dot"></i> Promenade Beach</p>
+                    <p class="desc">Modern hotel facing the serene Bay of Bengal.</p>
+                    <button class="btn" onclick="alert('Booking Feature Coming Soon!')">Book Now</button>
+                </div>
+            </div>
+
+            <div class="card" data-location="Pondicherry">
+                <div class="img-container">
+                    <img src="hotel_images/french_colony_stay.jpg" alt="French Colony">
+                    <div class="price-badge">₹2,500</div>
+                </div>
+                <div class="card-content">
+                    <h2>French Colony Stay</h2>
+                    <p class="location"><i class="fa-solid fa-location-dot"></i> White Town</p>
+                    <p class="desc">Heritage yellow villa in the heart of the French Quarter.</p>
+                    <button class="btn" onclick="alert('Booking Feature Coming Soon!')">Book Now</button>
+                </div>
+            </div>
+
+        </div> </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
