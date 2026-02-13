@@ -126,6 +126,38 @@ body {
     transform: translateY(0);
 }
 
+/* --- 3D TEXT & BOUNCE ANIMATION --- */
+
+/* 1. Base Letter Style */
+.hero-text h1 span {
+    display: inline-block; /* Allows individual movement */
+    transition: color 0.2s;
+    cursor: default; /* Prevents text selection cursor */
+    
+    /* The 3D Look (Layers of dark brown shadow) */
+    /*text-shadow: 
+        1px 1px 0 #5e2f0d, 
+        2px 2px 0 #5e2f0d, 
+        3px 3px 0 #5e2f0d, 
+        4px 4px 0 #5e2f0d, 
+        6px 6px 0 #5e2f0d,
+        10px 10px 20px rgba(0,0,0,0.4);*/ /* Soft real shadow */
+}
+
+/* 2. The Bounce Keyframe */
+@keyframes bounce-letter {
+    0% { transform: translateY(0) scale(1); }
+    30% { transform: translateY(-30px) scale(1.1); } /* Jump Up & Grow */
+    60% { transform: translateY(5px) scale(1); }    /* Overshoot down */
+    100% { transform: translateY(0) scale(1); }     /* Back to normal */
+}
+
+/* 3. Trigger on Hover */
+.hero-text h1 span:hover {
+    animation: bounce-letter 0.6s ease forwards;
+    color: #ffffff; /* Brighten the letter slightly on hover */
+}
+
 /* Mobile Responsiveness */
 @media (max-width: 768px) {
     .container { flex-direction: column; }
