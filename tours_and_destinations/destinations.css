@@ -1,102 +1,171 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&display=swap');
+
 :root {
-    --primary-color: #27ae60; 
-    --accent-color: #2ecc71;
-    --text-dark: #2c3e50;
-    --text-light: #7f8c8d;
+    --primary-color: #8B4513; /* Rust Brown */
+    --accent-color: #a05520;  /* Lighter Brown */
+    --cream-bg: #F2E8DC;
+    --text-dark: #4a2c2a;
 }
 
-* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Playfair Display', serif; }
 
-body { background-color: #f0f4f1; color: var(--text-dark); }
+body { 
+    background-color: var(--cream-bg); 
+    color: var(--text-dark); 
+}
 
+/* HERO SECTION */
 .hero-section {
-    background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), 
+    background: linear-gradient(rgba(74, 44, 42, 0.7), rgba(74, 44, 42, 0.7)), 
                 url('https://weather.metoffice.gov.uk/binaries/content/gallery/metofficegovuk/hero-images/weather/cloud/high-clouds.jpg/high-clouds.jpg/metofficegovuk%3AheroMedium');
-                
     background-size: cover; 
     background-position: center;
-    height: 25vh; 
+    height: 35vh; /* Taller header */
     display: flex; 
     align-items: center; 
     justify-content: center; 
-    color: white;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+    color: var(--cream-bg);
+    border-bottom: 5px solid var(--primary-color);
+}
+
+.hero-section h1 {
+    font-size: 3.5rem;
+    letter-spacing: -1px;
+    text-transform: uppercase;
 }
 
 #navigation{
     position:absolute;
-    top:0px;
-    right:10px;
+    top: 20px;
+    right: 20px;
 }
 
-.container { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; padding: 40px 20px; }
+.container { 
+    display: flex; 
+    flex-wrap: wrap; 
+    justify-content: center; 
+    gap: 30px; 
+    padding: 60px 20px; 
+}
 
+/* DESTINATION CARDS */
 .card { 
-    background: white; width: 320px; border-radius: 12px; overflow: hidden; 
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1); position: relative; transition: 0.3s;
-}
-
-.card:hover { transform: translateY(-5px); }
-
-.badge { 
-    position: absolute; top: 12px; left: 12px; background: var(--primary-color); 
-    color: white; padding: 4px 10px; border-radius: 4px; font-size: 11px; font-weight: bold; 
-    z-index: 10;
-}
-
-.card img { width: 100%; height: 180px; object-fit: cover; }
-
-.card-content { padding: 20px; }
-
-.activity-info { color: var(--text-light); font-size: 0.85rem; margin: 10px 0; border-bottom: 1px solid #eee; padding-bottom: 10px; }
-
-.price-tag { display: block; text-align: right; font-size: 1.5rem; font-weight: bold; color: #2d3436; margin-top: 10px; }
-
-.price-tag span { font-size: 0.8rem; color: #636e72; font-weight: normal; }
-
-.btn { 
-    display: block; margin: 20px auto; padding: 10px 30px; border-radius: 5px; 
-    border: none; background: var(--primary-color); color: white; cursor: pointer; 
+    background: white; 
+    width: 320px; 
+    border: 1px solid var(--primary-color);
+    border-radius: 0; /* Sharp corners */
+    box-shadow: 8px 8px 0px rgba(139, 69, 19, 0.15); /* Retro Shadow */
+    position: relative; 
     transition: 0.3s;
 }
 
-.btn:hover { background: var(--accent-color); }
+.card:hover { transform: translateY(-5px); box-shadow: 4px 4px 0px rgba(139, 69, 19, 0.3); }
 
-/* Modal Background */
-.modal {
-    display: none; /* Hidden by default */
-    position: fixed;
-    z-index: 100;
-    left: 0; top: 0;
-    width: 100%; height: 100%;
-    background-color: rgba(0,0,0,0.6);
+.badge { 
+    position: absolute; top: 0; left: 0; 
+    background: var(--primary-color); 
+    color: var(--cream-bg); 
+    padding: 8px 15px; 
+    font-size: 0.8rem; 
+    font-weight: bold; 
+    letter-spacing: 1px;
+    z-index: 10;
 }
 
-/* Modal Box */
+.card img { width: 100%; height: 220px; object-fit: cover; filter: sepia(10%); }
+
+.card-content { padding: 25px; text-align: center; }
+
+.card-content h2 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    color: var(--primary-color);
+}
+
+.activity-info { 
+    color: #666; 
+    font-family: 'Segoe UI', sans-serif; /* Readable sans-serif */
+    font-size: 0.9rem; 
+    margin: 15px 0; 
+    border-top: 1px solid #eee; 
+    border-bottom: 1px solid #eee; 
+    padding: 10px 0; 
+}
+
+.price-tag { 
+    display: block; 
+    text-align: center; 
+    font-size: 1.8rem; 
+    font-weight: bold; 
+    color: var(--text-dark); 
+    margin: 15px 0; 
+}
+
+.price-tag span { font-size: 0.9rem; color: #888; font-weight: normal; font-family: 'Segoe UI', sans-serif; }
+
+/* BUTTONS */
+.btn { 
+    display: inline-block; 
+    padding: 10px 25px; 
+    border: 1px solid var(--primary-color); 
+    background: var(--primary-color); 
+    color: var(--cream-bg); 
+    cursor: pointer; 
+    transition: 0.3s;
+    font-family: 'Playfair Display', serif;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.btn:hover { 
+    background: transparent; 
+    color: var(--primary-color); 
+}
+
+/* MODAL STYLING */
+.modal {
+    display: none; 
+    position: fixed; 
+    z-index: 100; 
+    left: 0; top: 0; 
+    width: 100%; height: 100%; 
+    background-color: rgba(74, 44, 42, 0.9); /* Brown Overlay */
+}
+
 .modal-content {
-    background-color: white;
+    background-color: var(--cream-bg);
     margin: 10% auto;
-    padding: 30px;
+    padding: 40px;
     width: 90%;
-    max-width: 400px;
-    border-radius: 15px;
+    max-width: 450px;
+    border: 2px solid var(--primary-color);
     position: relative;
+    text-align: center;
 }
 
 .close-btn {
     position: absolute;
-    right: 20px; top: 15px;
-    font-size: 28px;
+    right: 20px; top: 10px;
+    font-size: 40px;
     cursor: pointer;
+    color: var(--primary-color);
 }
 
-form label { display: block; margin-top: 15px; font-weight: bold; }
-form input { width: 100%; padding: 10px; margin-top: 5px; border: 1px solid #ccc; border-radius: 5px; }
+form label { display: block; margin-top: 20px; font-weight: bold; color: var(--primary-color); }
+form input { 
+    width: 100%; 
+    padding: 12px; 
+    margin-top: 8px; 
+    border: 1px solid var(--primary-color); 
+    background: white; 
+    font-family: 'Segoe UI', sans-serif;
+}
 
 .total-price {
-    margin: 20px 0;
-    font-size: 1.2rem;
+    margin: 30px 0;
+    font-size: 1.5rem;
     color: var(--primary-color);
     font-weight: bold;
+    border-top: 1px dashed var(--primary-color);
+    padding-top: 20px;
 }
-

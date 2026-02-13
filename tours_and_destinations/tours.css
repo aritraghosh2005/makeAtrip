@@ -1,22 +1,30 @@
+/* IMPORT THE FONT */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&display=swap');
 
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Playfair Display', serif; /* YOUR SIGNATURE FONT */
 }
-#navigation{
-    position:absolute;
-    top:0px;
-    right:10px;
-}
+
 body {
-    background-color: #f8f9fa;
-    color: #2d3436;
+    background-color: #F2E8DC; /* YOUR CREAM BACKGROUND */
+    color: #4a2c2a; /* Dark Brown Text instead of Black */
 }
- 
+
+/* NAVIGATION BUTTONS */
+#navigation {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 100;
+}
+
+/* HERO SECTION */
 .hero-section {
-    background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), 
+    /* Sepia/Brown Overlay to match your theme */
+    background: linear-gradient(rgba(139, 69, 19, 0.6), rgba(74, 44, 42, 0.8)), 
                 url('https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?auto=format&fit=crop&w=1200');
     background-size: cover;
     background-position: center;
@@ -25,43 +33,54 @@ body {
     align-items: center;
     justify-content: center;
     text-align: center;
-    color: white;
+    color: #F2E8DC; /* Cream Text */
 }
 
 .hero-content h1 {
-    font-size: 3rem;
+    font-size: 5rem; /* Massive Editorial Text */
     margin-bottom: 10px;
-    letter-spacing: 2px;
+    letter-spacing: -2px;
+    text-transform: uppercase;
 }
 
+.hero-content p {
+    font-size: 1.5rem;
+    font-style: italic;
+    letter-spacing: 1px;
+}
+
+/* CARD CONTAINER */
 .container {
     max-width: 1200px;
-    margin: -50px auto 50px;
+    margin: -80px auto 50px; /* Overlap effect */
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 30px;
+    gap: 40px;
     padding: 0 20px;
 }
 
+/* CARDS */
 .card {
-    background: white;
+    background: white; /* Keep white for contrast */
     width: 350px;
-    border-radius: 20px;
+    border: 1px solid #8B4513; /* Thin Brown Border */
+    border-radius: 0; /* Sharp corners look more "Magazine" */
     overflow: hidden;
-    box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+    box-shadow: 10px 10px 0px rgba(139, 69, 19, 0.2); /* Retro Shadow */
     transition: all 0.3s ease;
     cursor: pointer;
 }
 
 .card:hover {
-    transform: translateY(-15px);
-    box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+    transform: translateY(-10px) translate(5px, 5px);
+    box-shadow: 5px 5px 0px rgba(139, 69, 19, 0.4);
 }
 
 .img-container {
-    height: 230px;
+    height: 250px;
     overflow: hidden;
+    border-bottom: 1px solid #8B4513;
 }
 
 .card img {
@@ -69,47 +88,99 @@ body {
     height: 100%;
     object-fit: cover;
     transition: transform 0.5s ease;
+    filter: sepia(20%); /* Slight vintage filter */
 }
 
 .card:hover img {
     transform: scale(1.1);
+    filter: sepia(0%);
 }
 
 .card-content {
-    padding: 25px;
+    padding: 30px;
     text-align: center;
+    background-color: #fffaf0; /* Very light cream */
 }
 
 .card-content h2 {
-    margin-bottom: 12px;
-    color: #2d3436;
+    font-size: 2rem;
+    margin-bottom: 15px;
+    color: #8B4513;
+    text-transform: uppercase;
 }
 
 .card-content p {
-    font-size: 0.95rem;
+    font-size: 1rem;
     color: #636e72;
     line-height: 1.6;
+    font-family: 'Segoe UI', sans-serif; /* Keep body text readable */
 }
 
+/* BUTTONS */
 .btn {
-    background-color: #0984e3;
-    color: white;
-    border: none;
-    padding: 12px 25px;
-    border-radius: 50px;
-    margin-top: 20px;
-    font-weight: 600;
-    transition: background 0.3s;
+    background-color: #8B4513; /* YOUR RUST BROWN */
+    color: #F2E8DC;
+    border: 1px solid #8B4513;
+    padding: 12px 30px;
+    border-radius: 0; /* Sharp Edges */
+    margin-top: 25px;
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: all 0.3s;
+    cursor: pointer;
 }
 
 .btn:hover {
-    background-color: #74b9ff;
+    background-color: transparent;
+    color: #8B4513;
+}
+/* SHARED BUTTON STYLE */
+.nav-overlay-btn {
+    position: absolute;
+    top: 20px; /* Aligns both buttons exactly 20px from top */
+    z-index: 200;
+    background: rgba(242, 232, 220, 0.95); /* Cream background */
+    color: #8B4513; /* Rust Brown text */
+    border: 1px solid #8B4513;
+    padding: 12px 25px; /* Identical size */
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    box-shadow: 4px 4px 0px rgba(139, 69, 19, 0.2); /* Retro shadow */
 }
 
+/* HOVER EFFECT (Same for both) */
+.nav-overlay-btn:hover {
+    background: #8B4513;
+    color: #F2E8DC;
+    transform: translateY(-2px);
+    box-shadow: 2px 2px 0px rgba(139, 69, 19, 0.4);
+}
 
+/* POSITIONING */
+.left-btn {
+    left: 20px;
+}
+
+.right-btn {
+    right: 20px;
+}
 @media (max-width: 768px) {
-    .hero-content h1 { font-size: 2rem; }
+    .hero-content h1 { font-size: 3rem; }
     .container { margin-top: 20px; }
+    .nav-overlay-btn {
+        padding: 8px 15px;
+        font-size: 0.8rem;
+        top: 10px;
+    }
+    .left-btn { left: 10px; }
+    .right-btn { right: 10px; }
 }
-
-
