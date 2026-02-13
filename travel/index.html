@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Route Planner | Make A Trip</title>
+    
+    <link href="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div id="map"></div>
+
+    <div class="controls-card">
+        <div class="header">
+            <button class="back-btn" onclick="history.back()">
+                <i class="fa-solid fa-arrow-left"></i>
+            </button>
+            <h2>Plan Your Journey</h2>
+        </div>
+
+        <div class="input-group">
+            <label>Destination</label>
+            <select id="destination-select" onchange="calculateRoute()">
+                <option value="" disabled selected>Select a place...</option>
+                <option value="goa">Goa (Beaches)</option>
+                <option value="pondicherry">Pondicherry (French Colony)</option>
+                <option value="ooty">Ooty (Hill Station)</option>
+            </select>
+        </div>
+
+        <div id="stats-container" class="hidden">
+            <div class="stat-box">
+                <i class="fa-solid fa-road"></i>
+                <span id="distance-text">0 km</span>
+            </div>
+            <div class="stat-box">
+                <i class="fa-solid fa-clock"></i>
+                <span id="duration-text">0 hrs</span>
+            </div>
+        </div>
+
+        <div id="actions-container" class="hidden">
+            <p class="section-title">Book Tickets</p>
+            
+            <div class="action-buttons">
+                <button onclick="bookBus()" class="btn bus-btn">
+                    <i class="fa-solid fa-bus"></i> RedBus
+                </button>
+                <button onclick="bookTrain()" class="btn train-btn">
+                    <i class="fa-solid fa-train"></i> Ixigo
+                </button>
+                <button onclick="bookCab()" class="btn cab-btn">
+                    <i class="fa-solid fa-car"></i> Uber
+                </button>
+            </div>
+            
+            <p id="train-warning" class="warning-text"></p>
+        </div>
+    </div>
+
+    <script src="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js"></script>
+    <script src="https://unpkg.com/@turf/turf/turf.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

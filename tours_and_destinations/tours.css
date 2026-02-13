@@ -1,0 +1,115 @@
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+#navigation{
+    position:absolute;
+    top:0px;
+    right:10px;
+}
+body {
+    background-color: #f8f9fa;
+    color: #2d3436;
+}
+ 
+.hero-section {
+    background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), 
+                url('https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?auto=format&fit=crop&w=1200');
+    background-size: cover;
+    background-position: center;
+    height: 60vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: white;
+}
+
+.hero-content h1 {
+    font-size: 3rem;
+    margin-bottom: 10px;
+    letter-spacing: 2px;
+}
+
+.container {
+    max-width: 1200px;
+    margin: -50px auto 50px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px;
+    padding: 0 20px;
+}
+
+.card {
+    background: white;
+    width: 350px;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.card:hover {
+    transform: translateY(-15px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+}
+
+.img-container {
+    height: 230px;
+    overflow: hidden;
+}
+
+.card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.card:hover img {
+    transform: scale(1.1);
+}
+
+.card-content {
+    padding: 25px;
+    text-align: center;
+}
+
+.card-content h2 {
+    margin-bottom: 12px;
+    color: #2d3436;
+}
+
+.card-content p {
+    font-size: 0.95rem;
+    color: #636e72;
+    line-height: 1.6;
+}
+
+.btn {
+    background-color: #0984e3;
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 50px;
+    margin-top: 20px;
+    font-weight: 600;
+    transition: background 0.3s;
+}
+
+.btn:hover {
+    background-color: #74b9ff;
+}
+
+
+@media (max-width: 768px) {
+    .hero-content h1 { font-size: 2rem; }
+    .container { margin-top: 20px; }
+}
+
+

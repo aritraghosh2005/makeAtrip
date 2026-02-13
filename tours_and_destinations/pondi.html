@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Activities in Pondicherry</title>
+    <link rel="stylesheet" href="destinations.css">
+</head>
+<body>
+    <header class="hero-section">
+        <div id="navigation">
+         <nav>
+                <button class="btn" onclick="location.href='bookings.html'">View Bookings</button>
+        </nav>
+    </div>
+        <h1>Showing Activities in Pondicherry</h1>
+    </header>
+
+    <main class="container">
+        <div class="card">
+            <div class="badge">Culture</div>
+            <img src="tours_images/pondi-white.jpg" alt="White Town">
+            <div class="card-content">
+                <h2>White Town Walking Tour</h2>
+                <div class="activity-info">
+                    <span>🕒 2 Hours</span><br>
+                    <span>✓ French Heritage</span>
+                </div>
+                <p>Explore the charming yellow streets and colonial buildings of the French Quarter.</p>
+                <div class="price-tag">₹300 <span>per student</span></div>
+                <button class="btn" onclick="openBooking('White Town', 300)">Book Now</button>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="badge">Beach</div>
+            <img src="tours_images/pondi-beach.png" alt="Paradise Beach">
+            <div class="card-content">
+                <h2>Paradise Beach Boat Ride</h2>
+                <div class="activity-info">
+                    <span>🕒 4 Hours</span><br>
+                    <span>✓ Ferry included</span>
+                </div>
+                <p>Take a scenic ferry ride to reach the most pristine beach in Pondicherry.</p>
+                <div class="price-tag">₹450 <span>per person</span></div>
+                <button class="btn" onclick="openBooking('Paradise Beach Boat Ride', 450)">Book Now</button>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="badge">Peace</div>
+            <img src="tours_images/pondi-matrimandir.png" alt="Auroville">
+            <div class="card-content">
+                <h2>Auroville Matrimandir</h2>
+                <div class="activity-info">
+                    <span>🕒 Half Day</span><br>
+                    <span>✓ Quiet Zone</span>
+                </div>
+                <p>Visit the soul of the city, an experimental township dedicated to human unity.</p>
+                <div class="price-tag">₹0 <span>Free Entry</span></div>
+                <button class="btn" onclick="openBooking('Auroville Matrimandir', 0)">Book Now</button>
+            </div>
+        </div>
+    </main>
+
+
+    <div id="bookingModal" class="modal">
+    <div class="modal-content">
+        <span class="close-btn">&times;</span>
+        <h2>Book Your Activity</h2>
+        <form id="bookingForm">
+            <label for="activityName">Activity:</label>
+            <input type="text" id="activityName" readonly>
+
+            <label for="bookingDate">Select Date:</label>
+            <input type="date" id="bookingDate" required>
+
+            <label for="numPersons">Number of Persons:</label>
+            <input type="number" id="numPersons" min="1" value="1" required>
+
+            <div class="total-price">
+                Total Amount: ₹<span id="displayTotal">0</span>
+            </div>
+
+            <button type="submit" class="btn">Confirm Booking</button>
+        </form>
+    </div>
+</div>
+
+<div id="bookingModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal()">&times;</span>
+            <h2>Book Your Activity</h2>
+            <form id="bookingForm">
+                <label>Activity:</label>
+                <input type="text" id="activityName" readonly>
+
+                <label>Select Date:</label>
+                <input type="date" id="bookingDate" required>
+
+                <label>Persons:</label>
+                <input type="number" id="numPersons" min="1" value="1" required>
+
+                <div class="total-price">
+                    Total: ₹<span id="displayTotal">0</span>
+                </div>
+
+                <button type="submit" class="btn">Confirm & Save</button>
+            </form>
+        </div>
+    </div>
+
+
+    <div style="text-align: center; margin-bottom: 50px;">
+        <button class="btn" onclick="location.href='tours_index.html'">Back to Destinations</button>
+    </div>
+
+
+
+    <script src="tours_script.js"></script>
+</body>
+</html>

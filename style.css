@@ -1,0 +1,110 @@
+/* Reset and Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    height: 100vh;
+    width: 100vw;
+    font-family: 'Playfair Display', serif;
+    overflow: hidden; /* Prevents scrolling */
+}
+
+/* Main Container - The 3-Column Grid */
+.container {
+    display: flex;
+    height: 100%;
+    width: 100%;
+}
+
+/* Shared Panel Styles */
+.panel {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around; /* Spreads items vertically */
+    align-items: center;
+    transition: all 0.3s ease;
+}
+
+/* Side Panels (Cream Background) */
+.side-panel {
+    flex: 1; /* Takes up 1 part of space */
+    background-color: #f0ebe0; /* Light Cream matching your image */
+    padding: 2rem;
+}
+
+/* Center Panel (Rust/Brown Background) */
+.center-panel {
+    flex: 1.5; /* Slightly wider than sides */
+    background-color: #8b3a26; /* The specific rust/brown from your image */
+    justify-content: center; /* Centers text perfectly */
+    position: relative;
+    z-index: 10;
+}
+
+/* Typography for "MAKE A TRIP" */
+.hero-text {
+    text-align: center;
+    color: #f0ebe0; /* Text matches side background */
+    line-height: 0.85; /* Tight spacing like the image */
+}
+
+.hero-text h1 {
+    font-size: 15vw; /* Responsive huge text */
+    font-weight: 400; /* Regular weight looks more elegant */
+    letter-spacing: -5px; /* Tight tracking */
+    margin: 0;
+    text-transform: uppercase;
+}
+
+/* The Navigation Buttons (Icons) */
+.nav-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #ff5e57; /* The Coral Red from your image */
+    font-size: 4rem; /* Big icons */
+    transition: transform 0.2s ease, color 0.2s ease;
+    position: relative;
+}
+
+.nav-btn:hover {
+    transform: scale(1.1); /* Pop effect */
+    color: #d63031; /* Darker red on hover */
+}
+
+/* Simple Tooltip for UX */
+.tooltip {
+    position: absolute;
+    bottom: -30px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 1rem;
+    font-family: sans-serif;
+    color: #333;
+    opacity: 0;
+    transition: opacity 0.3s;
+    white-space: nowrap;
+}
+
+.nav-btn:hover .tooltip {
+    opacity: 1;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column; /* Stack vertically on phones */
+    }
+    
+    .hero-text h1 {
+        font-size: 20vh; /* Adjust for vertical stacking */
+    }
+
+    .side-panel {
+        flex-direction: row; /* Icons side-by-side on mobile */
+        padding: 1rem;
+    }
+}
