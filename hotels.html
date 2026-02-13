@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Hotels & Homestays</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- LEFT PANEL -->
+    <div class="panel side-panel">
+
+        <button class="nav-btn" onclick="filterLocation('Goa')">
+            🏖
+            <span class="tooltip">Goa</span>
+        </button>
+
+        <button class="nav-btn" onclick="filterLocation('Ooty')">
+            🌄
+            <span class="tooltip">Ooty</span>
+        </button>
+
+        <button class="nav-btn" onclick="filterLocation('Pondicherry')">
+            🌊
+            <span class="tooltip">Pondicherry</span>
+        </button>
+
+        <button class="nav-btn" onclick="filterLocation('all')">
+            🏨
+            <span class="tooltip">All</span>
+        </button>
+
+    </div>
+
+
+    <!-- CENTER PANEL -->
+    <div class="panel center-panel" style="overflow-y:auto; padding:20px;">
+
+        <div class="hero-text">
+            <h1>STAY</h1>
+        </div>
+
+        <div id="hotel-list">
+
+            <!-- ================= GOA (5) ================= -->
+            <div class="hotel-card" data-location="Goa">
+                <h3>Beach Paradise Resort</h3>
+                <p>Baga Beach, Goa</p>
+                <p>₹4,500 / night</p>
+            </div>
+
+            <div class="hotel-card" data-location="Goa">
+                <h3>Sea View Luxury Hotel</h3>
+                <p>Calangute, Goa</p>
+                <p>₹5,800 / night</p>
+            </div>
+
+            <div class="hotel-card" data-location="Goa">
+                <h3>Palm Grove Homestay</h3>
+                <p>Anjuna, Goa</p>
+                <p>₹2,200 / night</p>
+            </div>
+
+            <div class="hotel-card" data-location="Goa">
+                <h3>Sunset Beach Lodge</h3>
+                <p>Colva, Goa</p>
+                <p>₹1,800 / night</p>
+            </div>
+
+            <div class="hotel-card" data-location="Goa">
+                <h3>Royal Ocean Grand</h3>
+                <p>Panaji, Goa</p>
+                <p>₹6,200 / night</p>
+            </div>
+
+
+            <!-- ================= OOTY (5) ================= -->
+            <div class="hotel-card" data-location="Ooty">
+                <h3>Hilltop Cottage</h3>
+                <p>Botanical Garden Road, Ooty</p>
+                <p>₹2,800 / night</p>
+            </div>
+
+            <div class="hotel-card" data-location="Ooty">
+                <h3>Misty Mountain Resort</h3>
+                <p>Doddabetta, Ooty</p>
+                <p>₹3,500 / night</p>
+            </div>
+
+            <div class="hotel-card" data-location="Ooty">
+                <h3>Lake View Residency</h3>
+                <p>Ooty Lake Area</p>
+                <p>₹2,400 / night</p>
+            </div>
+
+            <div class="hotel-card" data-location="Ooty">
+                <h3>Green Valley Homestay</h3>
+                <p>Lovedale, Ooty</p>
+                <p>₹1,900 / night</p>
+            </div>
+
+            <div class="hotel-card" data-location="Ooty">
+                <h3>Royal Heritage Hotel</h3>
+                <p>Charring Cross, Ooty</p>
+                <p>₹4,200 / night</p>
+            </div>
+
+
+            <!-- ================= PONDICHERRY (5) ================= -->
+            <div class="hotel-card" data-location="Pondicherry">
+                <h3>Ocean Breeze Hotel</h3>
+                <p>Promenade Beach</p>
+                <p>₹3,000 / night</p>
+            </div>
+
+            <div class="hotel-card" data-location="Pondicherry">
+                <h3>French Colony Stay</h3>
+                <p>White Town</p>
+                <p>₹2,500 / night</p>
+            </div>
+
+            <div class="hotel-card" data-location="Pondicherry">
+                <h3>Coral Bay Resort</h3>
+                <p>Serenity Beach</p>
+                <p>₹4,000 / night</p>
+            </div>
+
+            <div class="hotel-card" data-location="Pondicherry">
+                <h3>Sunshine Residency</h3>
+                <p>MG Road</p>
+                <p>₹2,200 / night</p>
+            </div>
+
+            <div class="hotel-card" data-location="Pondicherry">
+                <h3>Blue Lagoon Homestay</h3>
+                <p>Auroville</p>
+                <p>₹1,700 / night</p>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- RIGHT PANEL -->
+    <div class="panel side-panel">
+
+        <button class="nav-btn" onclick="navigateTo('routes')">
+            🗺
+            <span class="tooltip">Tours</span>
+        </button>
+
+        <button class="nav-btn" onclick="navigateTo('flights')">
+            ✈
+            <span class="tooltip">Travel</span>
+        </button>
+
+        <button class="nav-btn" onclick="navigateTo('ai-guide')">
+            🤖
+            <span class="tooltip">AI Guide</span>
+        </button>
+
+    </div>
+
+</div>
+
+<script src="hotels.js"></script>
+
+</body>
+</html>
