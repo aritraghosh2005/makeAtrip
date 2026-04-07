@@ -33,7 +33,7 @@ async function displayCityCards() {
             </div>
             <div class="card-content">
                 <h2>${city.city_name}</h2>
-                <p>${city.description.substring(0, 85)}...</p>
+                <p>${city.description}</p>
                 <button class="btn">View Attractions</button>
             </div>
         </div>
