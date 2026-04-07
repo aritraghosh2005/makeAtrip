@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Travel Explorer | Tours & Attractions</title>
     <link rel="stylesheet" href="tours.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
     <button class="nav-overlay-btn left-btn" onclick="location.href='../index.html'">
@@ -22,40 +24,8 @@
         </div>
     </header>
 
-    <main class="container">
-        <div class="card" onclick="location.href='goa.html'">
-            <div class="img-container">
-                <img src="tours_images/goa.jpg" alt="Goa">
-            </div>
-            <div class="card-content">
-                <h2>Goa</h2>
-                <p>Experience Sun-soaked beaches, Portuguese heritage, vibrant nightlife, and relaxed coastal vibes.</p>
-                <button class="btn">View Attractions</button>
-            </div>
-        </div>
+    <main class="container" id="city-list"></main>
 
-        <div class="card" onclick="location.href='ooty.html'">
-            <div class="img-container">
-                <img src="tours_images/ooty.jpg" alt="Ooty Gardens">
-            </div>
-            <div class="card-content">
-                <h2>Ooty</h2>
-                <p>Ride the historic toy train and breathe in the fresh air of the Nilgiri Mountains.</p>
-                <button class="btn">View Attractions</button>
-            </div>
-        </div>
-
-        <div class="card" onclick="location.href='pondi.html'">
-            <div class="img-container">
-                <img src="tours_images/pondi.jpg" alt="Pondicherry Streets">
-            </div>
-            <div class="card-content">
-                <h2>Pondicherry</h2>
-                <p>Stroll through the French Quarter and relax on the serene shores of the Bay of Bengal.</p>
-                <button class="btn">View Attractions</button>
-            </div>
-        </div>
-    </main>
-
+    <script src="tours_script.js"></script>
 </body>
 </html>
