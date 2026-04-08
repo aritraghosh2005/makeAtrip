@@ -3,29 +3,155 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Travel Explorer | Tours & Attractions</title>
-    <link rel="stylesheet" href="tours.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <title>Tours & Destinations — Voyara</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Grotesk:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../voyara.css">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        .why-strip {
+            display: grid; grid-template-columns: repeat(4,1fr);
+            border-top: var(--border); border-bottom: var(--border);
+            background: var(--brown);
+        }
+        .why-cell {
+            padding: 28px 24px; border-right: 3px solid rgba(242,232,220,0.2);
+            display: flex; align-items: center; gap: 14px;
+        }
+        .why-cell:last-child { border-right: none; }
+        .why-icon { width: 44px; height: 44px; flex-shrink: 0; background: var(--coral); border: var(--border); display: flex; align-items: center; justify-content: center; }
+        .why-icon i { font-size: 0.95rem; color: var(--black); }
+        .why-title { font-size: 0.76rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--cream); line-height: 1.3; }
+        .why-sub { font-size: 0.62rem; color: rgba(242,232,220,0.55); margin-top: 3px; }
+
+        .dest-section { padding: 56px 60px 80px; }
+        .section-label { display: inline-flex; align-items: center; gap: 8px; background: var(--coral); border: var(--border); padding: 6px 16px; margin-bottom: 14px; font-size: 0.6rem; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; }
+        .section-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(2.2rem, 4vw, 3.4rem); letter-spacing: 0.03em; line-height: 1; margin-bottom: 36px; }
+
+        /* Skeleton loader */
+        .skeleton-grid { display: grid; grid-template-columns: repeat(3,1fr); border-left: var(--border); border-top: var(--border); }
+        .skeleton-card { border-right: var(--border); border-bottom: var(--border); background: white; }
+        .skeleton-img { height: 260px; background: var(--cream-dark); border-bottom: var(--border); overflow: hidden; position: relative; }
+        .skeleton-img::after { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.45), transparent); animation: shimmer 1.4s infinite; }
+        @keyframes shimmer { from{transform:translateX(-100%)} to{transform:translateX(100%)} }
+        .skeleton-body { padding: 26px; }
+        .skeleton-line { height: 13px; background: var(--cream-dark); margin-bottom: 10px; border: 1px solid #ddd; }
+        .skeleton-line.w70 { width: 70%; } .skeleton-line.w45 { width: 45%; }
+
+        /* JS-generated .card styles */
+        #city-list { display: grid; grid-template-columns: repeat(3,1fr); border-left: var(--border); border-top: var(--border); counter-reset: city-counter; }
+
+        #city-list .card { counter-increment: city-counter; border-right: var(--border); border-bottom: var(--border); background: white; cursor: pointer; display: flex; flex-direction: column; position: relative; overflow: hidden; }
+        #city-list .card:hover { z-index: 2; }
+
+        #city-list .img-container { height: 260px; overflow: hidden; border-bottom: var(--border); position: relative; }
+        #city-list .img-container::before { content: counter(city-counter, decimal-leading-zero); position: absolute; top: 0; left: 0; z-index: 2; background: var(--brown); border-right: var(--border); border-bottom: var(--border); width: 52px; height: 52px; display: grid; place-items: center; font-family: 'Bebas Neue', sans-serif; font-size: 1.35rem; color: var(--cream); }
+        #city-list .img-container img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s, filter 0.4s; filter: sepia(15%); }
+        #city-list .card:hover .img-container img { transform: scale(1.06); filter: sepia(0%); }
+
+        #city-list .card-content { padding: 26px 26px 22px; flex: 1; display: flex; flex-direction: column; background: white; }
+        #city-list .card-content h2 { font-family: 'Bebas Neue', sans-serif; font-size: 2.2rem; letter-spacing: 0.04em; color: var(--black); line-height: 1; margin-bottom: 10px; }
+        #city-list .card-content p { font-size: 0.82rem; line-height: 1.65; color: #5a3e2b; flex: 1; margin-bottom: 22px; font-family: 'Space Grotesk', sans-serif; }
+        #city-list .card-content .btn { display: inline-flex; align-items: center; gap: 8px; background: var(--brown); color: var(--cream); border: var(--border); box-shadow: var(--shadow); padding: 11px 20px; width: fit-content; font-family: 'Space Grotesk', sans-serif; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; transition: transform 0.12s, box-shadow 0.12s, background 0.12s; }
+        #city-list .card:hover .card-content .btn { background: var(--coral); color: var(--black); transform: translate(-2px,-2px); box-shadow: var(--shadow-lg); }
+        #city-list .card-content .btn::after { content: ' →'; }
+
+        .error-state { grid-column: 1/-1; padding: 60px 40px; text-align: center; border-right: var(--border); border-bottom: var(--border); background: white; }
+        .error-state i { font-size: 2rem; color: var(--coral); margin-bottom: 14px; display: block; }
+        .error-state h3 { font-family: 'Bebas Neue', sans-serif; font-size: 1.8rem; margin-bottom: 8px; }
+        .error-state p { font-size: 0.82rem; color: #7a5a40; }
+
+        @media (max-width: 900px) {
+            #city-list, .skeleton-grid { grid-template-columns: 1fr; }
+            .dest-section { padding: 36px 24px 60px; }
+            .why-strip { grid-template-columns: 1fr 1fr; }
+            .why-cell { border-bottom: 3px solid rgba(242,232,220,0.2); }
+        }
+    </style>
 </head>
 <body>
-    <button class="nav-overlay-btn left-btn" onclick="location.href='../index.html'">
-        <i class="fa-solid fa-arrow-left"></i> Back to Home
-    </button>
+    <nav class="topnav">
+        <a class="nav-logo" href="../index.html"><div class="nav-logo-dot"></div><span>Voyara</span></a>
+        <ul class="nav-links">
+            <li><a href="tours_index.html" class="active"><i class="fa-solid fa-map-location-dot"></i> Tours</a></li>
+            <li><a href="../hotels/index.html"><i class="fa-solid fa-hotel"></i> Stays</a></li>
+            <li><a href="../travel/index.html"><i class="fa-solid fa-plane-departure"></i> Travel</a></li>
+        </ul>
+        <div class="nav-spacer"></div>
+        <button class="nav-cta" onclick="alert('Login coming soon!')"><i class="fa-solid fa-circle-user"></i> My Account</button>
+    </nav>
 
-    <button class="nav-overlay-btn right-btn" onclick="location.href='bookings.html'">
-        <i class="fa-solid fa-ticket"></i> View Bookings
-    </button>
-
-    <header class="hero-section">
-        <div class="hero-content">
-            <h1>Adventure Awaits</h1>
-            <p>Explore the hidden gems of Southern India</p>
+    <div class="page-wrap">
+        <div class="page-hero">
+            <div>
+                <div class="page-hero-label"><i class="fa-solid fa-map-location-dot"></i> Tours & Destinations</div>
+                <h1 class="page-hero-title"><span class="outlined">Explore</span><br>Southern India</h1>
+                <p class="page-hero-desc">Handpicked destinations, each with unique culture, landscapes and unforgettable experiences.</p>
+            </div>
+            <div class="page-hero-actions">
+                <a class="btn-secondary" href="bookings.html"><i class="fa-solid fa-ticket"></i> My Bookings</a>
+            </div>
         </div>
-    </header>
 
-    <main class="container" id="city-list"></main>
+        <div class="breadcrumb">
+            <a href="../index.html">Home</a><span class="sep">/</span>
+            <span class="current">Tours & Destinations</span>
+        </div>
+
+        <div class="why-strip">
+            <div class="why-cell"><div class="why-icon"><i class="fa-solid fa-shield-halved"></i></div><div><div class="why-title">Safe & Verified</div><div class="why-sub">All tours vetted by locals</div></div></div>
+            <div class="why-cell"><div class="why-icon"><i class="fa-solid fa-indian-rupee-sign"></i></div><div><div class="why-title">Best Prices</div><div class="why-sub">No hidden charges</div></div></div>
+            <div class="why-cell"><div class="why-icon"><i class="fa-solid fa-clock"></i></div><div><div class="why-title">Instant Booking</div><div class="why-sub">Confirm in seconds</div></div></div>
+            <div class="why-cell"><div class="why-icon"><i class="fa-solid fa-headset"></i></div><div><div class="why-title">24/7 Support</div><div class="why-sub">Always here for you</div></div></div>
+        </div>
+
+        <div class="dest-section">
+            <div class="section-label"><i class="fa-solid fa-location-dot"></i> Choose a Destination</div>
+            <h2 class="section-title">Where Do You<br>Want to Go?</h2>
+
+            <!-- Skeleton while Supabase loads -->
+            <div class="skeleton-grid" id="loading-skeleton">
+                <div class="skeleton-card"><div class="skeleton-img"></div><div class="skeleton-body"><div class="skeleton-line w70"></div><div class="skeleton-line w45"></div><div class="skeleton-line w70"></div></div></div>
+                <div class="skeleton-card"><div class="skeleton-img"></div><div class="skeleton-body"><div class="skeleton-line w70"></div><div class="skeleton-line w45"></div><div class="skeleton-line w70"></div></div></div>
+                <div class="skeleton-card"><div class="skeleton-img"></div><div class="skeleton-body"><div class="skeleton-line w70"></div><div class="skeleton-line w45"></div><div class="skeleton-line w70"></div></div></div>
+            </div>
+
+            <!-- Populated by tours_script.js displayCityCards() -->
+            <main id="city-list" style="display:none;"></main>
+        </div>
+
+        <footer class="page-footer">
+            <div class="footer-brand"><span class="footer-logo">Voyara</span><p class="footer-tagline">Your gateway to India's most beautiful destinations.</p></div>
+            <div class="footer-col"><h4>Explore</h4><ul><li><a href="tours_index.html">Tours & Destinations</a></li><li><a href="../hotels/index.html">Stays & Villas</a></li><li><a href="../travel/index.html">Travel & Routes</a></li></ul></div>
+            <div class="footer-col"><h4>Quick Links</h4><ul><li><a href="bookings.html">My Bookings</a></li><li><a href="../index.html">Home</a></li></ul></div>
+        </footer>
+    </div>
 
     <script src="tours_script.js"></script>
+    <script>
+        // Watch for Supabase to populate the list, then swap skeleton → grid
+        const observer = new MutationObserver(() => {
+            const list = document.getElementById('city-list');
+            if (list.children.length > 0) {
+                document.getElementById('loading-skeleton').style.display = 'none';
+                list.style.display = 'grid';
+                observer.disconnect();
+            }
+        });
+        observer.observe(document.getElementById('city-list'), { childList: true });
+
+        // Fallback error after 6s
+        setTimeout(() => {
+            const sk = document.getElementById('loading-skeleton');
+            const list = document.getElementById('city-list');
+            if (sk.style.display !== 'none' && list.children.length === 0) {
+                sk.style.display = 'none';
+                list.style.display = 'grid';
+                list.innerHTML = `<div class="error-state"><i class="fa-solid fa-circle-exclamation"></i><h3>Could Not Load Destinations</h3><p>Check your Supabase connection or try refreshing.</p></div>`;
+            }
+        }, 6000);
+    </script>
 </body>
 </html>

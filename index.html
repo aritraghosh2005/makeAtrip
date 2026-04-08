@@ -3,62 +3,743 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Make A Trip</title>
+    <title>Voyara — Discover India</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Grotesk:wght@300;400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="style.css">
+    <style>
+        :root {
+            --brown: #8B4513;
+            --brown-dark: #6b3410;
+            --cream: #F2E8DC;
+            --cream-dark: #e8d9c5;
+            --coral: #FF6B6B;
+            --coral-dark: #e85555;
+            --black: #111010;
+            --border: 3px solid var(--black);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            background: var(--cream);
+            font-family: 'Space Grotesk', sans-serif;
+            color: var(--black);
+            overflow-x: hidden;
+        }
+
+        /* ─── NAVBAR ─── */
+        nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 999;
+            background: var(--cream);
+            border-bottom: var(--border);
+            display: flex;
+            align-items: stretch;
+            height: 62px;
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 0 28px;
+            border-right: var(--border);
+            background: var(--brown);
+            text-decoration: none;
+        }
+        .nav-logo-dot {
+            width: 9px; height: 9px;
+            background: var(--coral);
+            border: 2px solid var(--black);
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+        .nav-logo span {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.55rem;
+            letter-spacing: 0.15em;
+            color: var(--cream);
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: stretch;
+            list-style: none;
+            margin-left: auto;
+        }
+        .nav-links li a {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 0 22px;
+            height: 100%;
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            text-decoration: none;
+            color: var(--black);
+            border-left: var(--border);
+            transition: background 0.15s, color 0.15s;
+        }
+        .nav-links li a i { font-size: 0.85rem; color: var(--brown); transition: color 0.15s; }
+        .nav-links li a:hover { background: var(--brown); color: var(--cream); }
+        .nav-links li a:hover i { color: var(--coral); }
+
+        .nav-cta {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 0 26px;
+            background: var(--coral);
+            border-left: var(--border);
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: background 0.15s;
+            border: none;
+            color: var(--black);
+            font-family: 'Space Grotesk', sans-serif;
+        }
+        .nav-cta:hover { background: var(--coral-dark); }
+
+        /* ─── HERO ─── */
+        .hero {
+            min-height: 100vh;
+            padding-top: 62px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            border-bottom: var(--border);
+        }
+
+        .hero-left {
+            padding: 70px 60px 60px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            border-right: var(--border);
+            position: relative;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--coral);
+            border: var(--border);
+            box-shadow: 4px 4px 0 var(--black);
+            padding: 7px 16px;
+            font-size: 0.65rem;
+            font-weight: 700;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            width: fit-content;
+            margin-bottom: 30px;
+        }
+        .hero-badge i { font-size: 0.75rem; }
+
+        .hero-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(4.5rem, 8vw, 8rem);
+            line-height: 0.92;
+            letter-spacing: 0.02em;
+            color: var(--black);
+            margin-bottom: 28px;
+        }
+        .hero-title .accent { color: var(--brown); }
+        .hero-title .outlined {
+            -webkit-text-stroke: 2.5px var(--black);
+            color: transparent;
+        }
+
+        .hero-desc {
+            font-size: 1rem;
+            font-weight: 400;
+            line-height: 1.7;
+            color: #4a3828;
+            max-width: 420px;
+            margin-bottom: 40px;
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 14px;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: var(--brown);
+            color: var(--cream);
+            border: var(--border);
+            box-shadow: 5px 5px 0 var(--black);
+            padding: 14px 28px;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.82rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: transform 0.12s, box-shadow 0.12s, background 0.12s;
+            text-decoration: none;
+        }
+        .btn-primary:hover { background: var(--brown-dark); transform: translate(-2px,-2px); box-shadow: 7px 7px 0 var(--black); }
+        .btn-primary:active { transform: translate(2px,2px); box-shadow: 2px 2px 0 var(--black); }
+
+        .btn-secondary {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: transparent;
+            color: var(--black);
+            border: var(--border);
+            box-shadow: 5px 5px 0 var(--black);
+            padding: 14px 28px;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.82rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: transform 0.12s, box-shadow 0.12s, background 0.12s;
+            text-decoration: none;
+        }
+        .btn-secondary:hover { background: var(--cream-dark); transform: translate(-2px,-2px); box-shadow: 7px 7px 0 var(--black); }
+        .btn-secondary:active { transform: translate(2px,2px); box-shadow: 2px 2px 0 var(--black); }
+
+        .hero-stats {
+            display: flex;
+            gap: 0;
+            margin-top: 52px;
+            border-top: var(--border);
+            border-left: var(--border);
+            width: fit-content;
+        }
+        .stat-box {
+            padding: 18px 28px;
+            border-right: var(--border);
+            border-bottom: var(--border);
+        }
+        .stat-box .num {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 2.2rem;
+            color: var(--brown);
+            line-height: 1;
+            display: block;
+        }
+        .stat-box .lbl {
+            font-size: 0.6rem;
+            font-weight: 700;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: #7a5a40;
+            margin-top: 4px;
+            display: block;
+        }
+
+        /* Hero right — destination showcase */
+        .hero-right {
+            display: grid;
+            grid-template-rows: 1fr 1fr 1fr;
+        }
+
+        .dest-card {
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            border-bottom: var(--border);
+        }
+        .dest-card:last-child { border-bottom: none; }
+
+        .dest-card-bg {
+            position: absolute;
+            inset: 0;
+            background-size: cover;
+            background-position: center;
+            transition: transform 0.5s ease;
+            filter: sepia(30%) brightness(0.85);
+        }
+        .dest-card:hover .dest-card-bg { transform: scale(1.06); filter: sepia(10%) brightness(0.9); }
+
+        .dest-card-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(139,69,19,0.88) 0%, rgba(0,0,0,0.1) 60%);
+            transition: opacity 0.3s;
+        }
+
+        .dest-card-content {
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            padding: 28px 32px;
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+        }
+
+        .dest-name {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 2.8rem;
+            letter-spacing: 0.05em;
+            color: var(--cream);
+            line-height: 1;
+        }
+        .dest-sub {
+            font-size: 0.65rem;
+            font-weight: 500;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: rgba(242,232,220,0.7);
+            margin-top: 4px;
+        }
+
+        .dest-arrow {
+            width: 48px; height: 48px;
+            background: var(--coral);
+            border: var(--border);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1rem;
+            color: var(--black);
+            flex-shrink: 0;
+            transform: translate(0,0);
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 3px 3px 0 var(--black);
+        }
+        .dest-card:hover .dest-arrow { transform: translate(-3px,-3px); box-shadow: 6px 6px 0 var(--black); }
+
+        /* Placeholder colored bg when no image */
+        .bg-goa      { background-color: #c4895a; background-image: url('https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?w=800&q=70'); }
+        .bg-ooty     { background-color: #5a8a6b; background-image: url('https://images.unsplash.com/photo-1582510003544-4d00b7f74220?w=800&q=70'); }
+        .bg-pondi    { background-color: #7a8fa6; background-image: url('https://images.unsplash.com/photo-1582719471384-894fbb16e074?w=800&q=70'); }
+
+        /* ─── SERVICES SECTION ─── */
+        .section {
+            padding: 80px 60px;
+            border-bottom: var(--border);
+        }
+
+        .section-header {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            margin-bottom: 48px;
+            gap: 20px;
+        }
+
+        .section-tag {
+            display: inline-block;
+            background: var(--coral);
+            border: var(--border);
+            padding: 5px 14px;
+            font-size: 0.6rem;
+            font-weight: 700;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+        }
+
+        .section-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            letter-spacing: 0.03em;
+            line-height: 1;
+            color: var(--black);
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            border-left: var(--border);
+            border-top: var(--border);
+        }
+
+        .service-card {
+            border-right: var(--border);
+            border-bottom: var(--border);
+            padding: 36px 28px;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            transition: background 0.2s;
+            background: var(--cream);
+        }
+        .service-card::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0;
+            height: 4px;
+            width: 0;
+            background: var(--coral);
+            transition: width 0.3s ease;
+        }
+        .service-card:hover { background: var(--brown); }
+        .service-card:hover::after { width: 100%; }
+
+        .service-icon {
+            width: 54px; height: 54px;
+            background: var(--cream);
+            border: var(--border);
+            box-shadow: 4px 4px 0 var(--black);
+            display: flex; align-items: center; justify-content: center;
+            margin-bottom: 24px;
+            transition: background 0.2s, box-shadow 0.15s;
+        }
+        .service-card:hover .service-icon { background: var(--coral); box-shadow: 3px 3px 0 var(--black); }
+        .service-icon i { font-size: 1.2rem; color: var(--brown); transition: color 0.2s; }
+        .service-card:hover .service-icon i { color: var(--black); }
+
+        .service-name {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.5rem;
+            letter-spacing: 0.06em;
+            color: var(--black);
+            margin-bottom: 10px;
+            transition: color 0.2s;
+        }
+        .service-card:hover .service-name { color: var(--cream); }
+
+        .service-desc {
+            font-size: 0.8rem;
+            font-weight: 400;
+            line-height: 1.6;
+            color: #6a4a30;
+            transition: color 0.2s;
+        }
+        .service-card:hover .service-desc { color: rgba(242,232,220,0.75); }
+
+        .service-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 20px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--brown);
+            transition: color 0.2s, gap 0.2s;
+        }
+        .service-card:hover .service-link { color: var(--coral); gap: 10px; }
+
+        /* ─── DESTINATIONS STRIP ─── */
+        .dest-strip {
+            border-bottom: var(--border);
+            overflow: hidden;
+        }
+
+        .marquee-track {
+            display: flex;
+            gap: 0;
+            animation: marquee 20s linear infinite;
+            width: max-content;
+        }
+        .marquee-track:hover { animation-play-state: paused; }
+
+        .marquee-item {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 18px 40px;
+            border-right: var(--border);
+            cursor: pointer;
+            white-space: nowrap;
+            transition: background 0.15s;
+            flex-shrink: 0;
+        }
+        .marquee-item:hover { background: var(--brown); }
+        .marquee-item:hover .marquee-text,
+        .marquee-item:hover .marquee-dot { color: var(--cream); background: var(--coral); }
+
+        .marquee-dot {
+            width: 8px; height: 8px;
+            background: var(--brown);
+            border: 2px solid var(--black);
+            border-radius: 50%;
+            transition: background 0.15s;
+        }
+        .marquee-text {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.2rem;
+            letter-spacing: 0.12em;
+            color: var(--black);
+            transition: color 0.15s;
+        }
+
+        @keyframes marquee {
+            from { transform: translateX(0); }
+            to   { transform: translateX(-50%); }
+        }
+
+        /* ─── FOOTER ─── */
+        footer {
+            background: var(--brown);
+            border-top: var(--border);
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+        }
+
+        .footer-brand {
+            padding: 48px 52px;
+            border-right: 3px solid rgba(242,232,220,0.2);
+        }
+        .footer-logo {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 2.4rem;
+            letter-spacing: 0.12em;
+            color: var(--cream);
+            display: block;
+            margin-bottom: 14px;
+        }
+        .footer-tagline {
+            font-size: 0.75rem;
+            font-weight: 400;
+            line-height: 1.7;
+            color: rgba(242,232,220,0.65);
+            max-width: 240px;
+        }
+
+        .footer-col {
+            padding: 48px 40px;
+            border-right: 3px solid rgba(242,232,220,0.2);
+        }
+        .footer-col:last-child { border-right: none; }
+
+        .footer-col h4 {
+            font-size: 0.6rem;
+            font-weight: 700;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            color: var(--coral);
+            margin-bottom: 20px;
+        }
+
+        .footer-col ul { list-style: none; }
+        .footer-col ul li {
+            margin-bottom: 12px;
+        }
+        .footer-col ul li a {
+            font-size: 0.82rem;
+            font-weight: 400;
+            color: rgba(242,232,220,0.7);
+            text-decoration: none;
+            display: flex; align-items: center; gap: 8px;
+            transition: color 0.15s, gap 0.15s;
+        }
+        .footer-col ul li a::before {
+            content: '→';
+            font-size: 0.7rem;
+            color: var(--coral);
+            opacity: 0;
+            transition: opacity 0.15s;
+        }
+        .footer-col ul li a:hover { color: var(--cream); gap: 10px; }
+        .footer-col ul li a:hover::before { opacity: 1; }
+
+        /* ─── MOBILE ─── */
+        @media (max-width: 900px) {
+            .hero { grid-template-columns: 1fr; min-height: auto; }
+            .hero-left { padding: 50px 28px; border-right: none; border-bottom: var(--border); }
+            .hero-right { grid-template-rows: 220px 220px 220px; }
+            .services-grid { grid-template-columns: 1fr 1fr; }
+            .section { padding: 50px 28px; }
+            footer { grid-template-columns: 1fr; }
+            .footer-brand, .footer-col { border-right: none; border-bottom: 3px solid rgba(242,232,220,0.2); }
+            .nav-links { display: none; }
+        }
+    </style>
 </head>
 <body>
 
-    <nav class="top-bar">
-        <button class="account-btn" onclick="alert('Login feature coming soon!')">
-            <span class="user-text">My Account</span>
-            <i class="fa-solid fa-circle-user"></i>
+    <!-- NAVBAR -->
+    <nav>
+        <a class="nav-logo" href="#">
+            <div class="nav-logo-dot"></div>
+            <span>Voyara</span>
+        </a>
+        <ul class="nav-links">
+            <li><a href="#services"><i class="fa-solid fa-compass"></i> Explore</a></li>
+            <li><a href="./tours_and_destinations/tours_index.html"><i class="fa-solid fa-map-location-dot"></i> Tours</a></li>
+            <li><a href="./hotels/index.html"><i class="fa-solid fa-hotel"></i> Stays</a></li>
+            <li><a href="./travel/index.html"><i class="fa-solid fa-plane-departure"></i> Travel</a></li>
+        </ul>
+        <button class="nav-cta" onclick="alert('Login feature coming soon!')">
+            <i class="fa-solid fa-circle-user"></i> My Account
         </button>
     </nav>
 
-    <div class="container">
-        <div class="panel side-panel left-panel">
-            <button class="nav-btn" onclick="navigateTo('routes')">
-                <i class="fa-solid fa-map-location-dot"></i>
-                <span class="tooltip">Tours & Attractions</span>
-            </button>
-            
-            <button class="nav-btn" onclick="navigateTo('hotels')">
-                <i class="fa-solid fa-hotel"></i>
-                <span class="tooltip">Homestays & Villas</span>
-            </button>
-        </div>
+    <!-- HERO -->
+    <section class="hero">
+        <div class="hero-left">
+            <div class="hero-badge">
+                <i class="fa-solid fa-location-dot"></i>
+                South India's Best Destinations
+            </div>
 
-        <div class="panel center-panel">
-            <div class="hero-text">
-                <h1>
-                    <span>M</span><span>A</span><span>K</span><span>E</span>
-                </h1>
-                <h1>
-                    <span>A</span>
-                </h1>
-                <h1>
-                    <span>T</span><span>R</span><span>I</span><span>P</span>
-                </h1>
+            <h1 class="hero-title">
+                <span class="outlined">Explore</span><br>
+                <span class="accent">India's</span><br>
+                Best Trips
+            </h1>
+
+            <p class="hero-desc">
+                Handpicked tours, cozy stays, and seamless travel — all in one place. 
+                From the beaches of Goa to the hills of Ooty, your next adventure is a click away.
+            </p>
+
+            <div class="hero-actions">
+                <a class="btn-primary" href="./tours_and_destinations/tours_index.html">
+                    <i class="fa-solid fa-map-location-dot"></i> Browse Tours
+                </a>
+                <a class="btn-secondary" href="./hotels/index.html">
+                    <i class="fa-solid fa-hotel"></i> Find Stays
+                </a>
+            </div>
+
+            <div class="hero-stats">
+                <div class="stat-box">
+                    <span class="num">3</span>
+                    <span class="lbl">Destinations</span>
+                </div>
+                <div class="stat-box">
+                    <span class="num">6+</span>
+                    <span class="lbl">Stays</span>
+                </div>
+                <div class="stat-box">
+                    <span class="num">12+</span>
+                    <span class="lbl">Experiences</span>
+                </div>
             </div>
         </div>
 
-        <div class="panel side-panel right-panel">
-            <button class="nav-btn" onclick="navigateTo('flights')">
-                <i class="fa-solid fa-plane-circle-check"></i>
-                <span class="tooltip">Travel</span>
-            </button>
-            
-            <button class="nav-btn" onclick="navigateTo('ai-guide')">
-                <i class="fa-solid fa-robot"></i>
-                <span class="tooltip">AI Guide</span>
-            </button>
+        <div class="hero-right">
+            <div class="dest-card" onclick="window.location.href='./tours_and_destinations/goa.html'">
+                <div class="dest-card-bg bg-goa"></div>
+                <div class="dest-card-overlay"></div>
+                <div class="dest-card-content">
+                    <div>
+                        <div class="dest-name">Goa</div>
+                        <div class="dest-sub">Beaches · Cruises · Churches</div>
+                    </div>
+                    <div class="dest-arrow"><i class="fa-solid fa-arrow-right"></i></div>
+                </div>
+            </div>
+            <div class="dest-card" onclick="window.location.href='./tours_and_destinations/ooty.html'">
+                <div class="dest-card-bg bg-ooty"></div>
+                <div class="dest-card-overlay"></div>
+                <div class="dest-card-content">
+                    <div>
+                        <div class="dest-name">Ooty</div>
+                        <div class="dest-sub">Hills · Nilgiris · Skybridge</div>
+                    </div>
+                    <div class="dest-arrow"><i class="fa-solid fa-arrow-right"></i></div>
+                </div>
+            </div>
+            <div class="dest-card" onclick="window.location.href='./tours_and_destinations/pondi.html'">
+                <div class="dest-card-bg bg-pondi"></div>
+                <div class="dest-card-overlay"></div>
+                <div class="dest-card-content">
+                    <div>
+                        <div class="dest-name">Pondicherry</div>
+                        <div class="dest-sub">French Quarter · Beach · Culture</div>
+                    </div>
+                    <div class="dest-arrow"><i class="fa-solid fa-arrow-right"></i></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MARQUEE STRIP -->
+    <div class="dest-strip">
+        <div class="marquee-track" id="marquee">
+            <!-- populated by JS -->
         </div>
     </div>
 
-    <script src="script.js"></script>
+    <!-- SERVICES -->
+    <section class="section" id="services">
+        <div class="section-header">
+            <div>
+                <div class="section-tag">What We Offer</div>
+                <h2 class="section-title">Everything You<br>Need to Travel</h2>
+            </div>
+        </div>
+
+        <div class="services-grid">
+            <div class="service-card" onclick="window.location.href='./tours_and_destinations/tours_index.html'">
+                <div class="service-icon"><i class="fa-solid fa-map-location-dot"></i></div>
+                <div class="service-name">Tours &amp; Attractions</div>
+                <p class="service-desc">Guided tours, local experiences and must-see attractions across Goa, Ooty and Pondicherry.</p>
+                <span class="service-link">Explore Tours <i class="fa-solid fa-arrow-right"></i></span>
+            </div>
+
+            <div class="service-card" onclick="window.location.href='./hotels/index.html'">
+                <div class="service-icon"><i class="fa-solid fa-hotel"></i></div>
+                <div class="service-name">Stays &amp; Villas</div>
+                <p class="service-desc">Handpicked resorts, homestays and heritage villas. Comfort in every corner.</p>
+                <span class="service-link">Browse Stays <i class="fa-solid fa-arrow-right"></i></span>
+            </div>
+
+            <div class="service-card" onclick="window.location.href='./travel/index.html'">
+                <div class="service-icon"><i class="fa-solid fa-plane-departure"></i></div>
+                <div class="service-name">Travel &amp; Routes</div>
+                <p class="service-desc">Plan your routes, find transport options and get real-time travel info for your journey.</p>
+                <span class="service-link">Plan Route <i class="fa-solid fa-arrow-right"></i></span>
+            </div>
+
+            <div class="service-card" onclick="alert('AI Guide coming soon!')">
+                <div class="service-icon"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
+                <div class="service-name">AI Travel Guide</div>
+                <p class="service-desc">Get personalized itineraries, local tips and smart recommendations powered by AI.</p>
+                <span class="service-link">Coming Soon <i class="fa-solid fa-arrow-right"></i></span>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-brand">
+            <span class="footer-logo">Voyara</span>
+            <p class="footer-tagline">Your gateway to India's most beautiful destinations. Travel smart, travel well.</p>
+        </div>
+        <div class="footer-col">
+            <h4>Explore</h4>
+            <ul>
+                <li><a href="./tours_and_destinations/tours_index.html">Tours &amp; Attractions</a></li>
+                <li><a href="./hotels/index.html">Stays &amp; Villas</a></li>
+                <li><a href="./travel/index.html">Travel &amp; Routes</a></li>
+                <li><a href="#">AI Guide (Soon)</a></li>
+            </ul>
+        </div>
+        <div class="footer-col">
+            <h4>Destinations</h4>
+            <ul>
+                <li><a href="./tours_and_destinations/goa.html">Goa</a></li>
+                <li><a href="./tours_and_destinations/ooty.html">Ooty</a></li>
+                <li><a href="./tours_and_destinations/pondi.html">Pondicherry</a></li>
+            </ul>
+        </div>
+    </footer>
+
+    <script>
+        // Marquee items
+        const places = ['Goa', 'Ooty', 'Pondicherry', 'Baga Beach', 'Nilgiris', 'White Town', 'Anjuna', 'Doddabetta', 'Promenade Beach', 'Calangute', 'Botanical Gardens', 'Auroville'];
+        const track = document.getElementById('marquee');
+        const items = [...places, ...places]; // duplicate for seamless loop
+        items.forEach(p => {
+            const div = document.createElement('div');
+            div.className = 'marquee-item';
+            div.innerHTML = `<div class="marquee-dot"></div><span class="marquee-text">${p.toUpperCase()}</span>`;
+            track.appendChild(div);
+        });
+    </script>
 </body>
 </html>

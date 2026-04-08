@@ -3,125 +3,461 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Stays | Make A Trip</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>Stays & Villas — Voyara</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Grotesk:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../voyara.css">
+    <style>
+        /* ── LAYOUT ── */
+        .stays-layout {
+            display: grid;
+            grid-template-columns: 260px 1fr;
+            border-top: var(--border);
+            min-height: 80vh;
+        }
+
+        /* ── SIDEBAR ── */
+        .sidebar {
+            border-right: var(--border);
+            padding: 0;
+            position: sticky;
+            top: 62px;
+            height: calc(100vh - 62px);
+            overflow-y: auto;
+            background: var(--cream);
+        }
+        .sidebar-header {
+            background: var(--brown);
+            padding: 20px 24px;
+            border-bottom: var(--border);
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.2rem; letter-spacing: 0.1em;
+            color: var(--cream);
+            display: flex; align-items: center; gap: 10px;
+        }
+        .sidebar-header i { color: var(--coral); font-size: 0.9rem; }
+
+        .filter-group { border-bottom: var(--border); padding: 20px 24px; }
+        .filter-group-title {
+            font-size: 0.6rem; font-weight: 700;
+            letter-spacing: 0.22em; text-transform: uppercase;
+            color: var(--brown); margin-bottom: 14px;
+        }
+        .filter-btn {
+            display: flex; align-items: center; justify-content: space-between;
+            width: 100%; padding: 11px 14px;
+            background: transparent; border: 2px solid var(--black);
+            margin-bottom: 8px; cursor: pointer;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.78rem; font-weight: 500;
+            color: var(--black); text-align: left;
+            transition: background 0.15s, color 0.15s, transform 0.1s, box-shadow 0.1s;
+        }
+        .filter-btn:hover { background: var(--cream-dark); transform: translate(-1px,-1px); box-shadow: 3px 3px 0 var(--black); }
+        .filter-btn.active { background: var(--brown); color: var(--cream); box-shadow: 4px 4px 0 var(--black); }
+        .filter-btn .count {
+            font-family: 'Bebas Neue', sans-serif; font-size: 1rem;
+            color: var(--coral);
+        }
+        .filter-btn.active .count { color: var(--cream); }
+
+        .price-range-info {
+            font-size: 0.72rem; color: #7a5a40; line-height: 1.5;
+            padding: 14px 0 0;
+        }
+        .price-range-info strong { color: var(--brown); display: block; margin-bottom: 4px; }
+
+        /* ── MAIN CONTENT ── */
+        .stays-main { padding: 40px 44px 80px; }
+
+        .stays-top {
+            display: flex; align-items: center;
+            justify-content: space-between; margin-bottom: 32px;
+            flex-wrap: wrap; gap: 14px;
+        }
+        .stays-count {
+            font-size: 0.68rem; font-weight: 700;
+            letter-spacing: 0.14em; text-transform: uppercase;
+            color: var(--brown);
+        }
+        .stays-count strong {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.6rem; color: var(--black);
+            display: block; line-height: 1;
+        }
+        .active-filter-tag {
+            display: inline-flex; align-items: center; gap: 7px;
+            background: var(--coral); border: 2px solid var(--black);
+            padding: 6px 12px;
+            font-size: 0.65rem; font-weight: 700;
+            letter-spacing: 0.12em; text-transform: uppercase;
+            color: var(--black);
+        }
+
+        /* ── HOTEL GRID ── */
+        .hotel-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 0;
+            border-left: var(--border);
+            border-top: var(--border);
+        }
+
+        .hotel-card {
+            border-right: var(--border);
+            border-bottom: var(--border);
+            background: white;
+            display: flex; flex-direction: column;
+            position: relative;
+            transition: box-shadow 0.2s;
+        }
+        .hotel-card:hover { z-index: 2; box-shadow: var(--shadow-lg); }
+
+        .hotel-img {
+            height: 200px; overflow: hidden;
+            border-bottom: var(--border); position: relative;
+        }
+        .hotel-img img {
+            width: 100%; height: 100%; object-fit: cover;
+            transition: transform 0.5s; filter: sepia(10%);
+        }
+        .hotel-card:hover .hotel-img img { transform: scale(1.07); filter: sepia(0%); }
+
+        .hotel-location-badge {
+            position: absolute; bottom: 0; left: 0;
+            background: var(--brown);
+            border-right: var(--border); border-top: var(--border);
+            padding: 6px 12px;
+            font-size: 0.6rem; font-weight: 700;
+            letter-spacing: 0.14em; text-transform: uppercase;
+            color: var(--cream); z-index: 2;
+        }
+        .hotel-price-badge {
+            position: absolute; top: 0; right: 0;
+            background: var(--coral);
+            border-left: var(--border); border-bottom: var(--border);
+            padding: 8px 14px;
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.3rem; color: var(--black);
+            z-index: 2; line-height: 1;
+        }
+        .hotel-price-badge small {
+            display: block; font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.55rem; font-weight: 700;
+            letter-spacing: 0.1em; text-transform: uppercase;
+        }
+
+        .hotel-body { padding: 22px 22px 16px; flex: 1; display: flex; flex-direction: column; }
+        .hotel-name {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.45rem; letter-spacing: 0.04em;
+            color: var(--black); line-height: 1; margin-bottom: 6px;
+        }
+        .hotel-loc {
+            display: flex; align-items: center; gap: 6px;
+            font-size: 0.7rem; color: #888; margin-bottom: 10px;
+        }
+        .hotel-loc i { color: var(--brown); font-size: 0.65rem; }
+        .hotel-desc {
+            font-size: 0.78rem; line-height: 1.6; color: #5a3e2b;
+            flex: 1; margin-bottom: 16px;
+        }
+        .hotel-footer {
+            border-top: 2px solid var(--black);
+            padding-top: 14px;
+        }
+        .hotel-book-btn {
+            display: flex; align-items: center; justify-content: center; gap: 8px;
+            width: 100%; padding: 11px;
+            background: var(--brown); color: var(--cream);
+            border: var(--border); box-shadow: var(--shadow);
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.72rem; font-weight: 700;
+            letter-spacing: 0.1em; text-transform: uppercase;
+            cursor: pointer;
+            transition: transform 0.12s, box-shadow 0.12s, background 0.12s;
+        }
+        .hotel-book-btn:hover {
+            background: var(--coral); color: var(--black);
+            transform: translate(-2px,-2px); box-shadow: var(--shadow-lg);
+        }
+        .hotel-book-btn:active { transform: translate(2px,2px); box-shadow: 2px 2px 0 var(--black); }
+
+        .hotel-card.hidden { display: none; }
+
+        @media (max-width: 900px) {
+            .stays-layout { grid-template-columns: 1fr; }
+            .sidebar { position: static; height: auto; border-right: none; border-bottom: var(--border); }
+            .stays-main { padding: 28px 24px 60px; }
+            .hotel-grid { grid-template-columns: 1fr; }
+        }
+    </style>
 </head>
 <body>
 
-    <button class="nav-overlay-btn left-btn" onclick="location.href='../index.html'">
-        <i class="fa-solid fa-arrow-left"></i> Back to Home
-    </button>
-    <button class="nav-overlay-btn right-btn" onclick="location.href='../tours_and_destinations/tours_index.html'">
-        <i class="fa-solid fa-map-location-dot"></i> View Tours
-    </button>
+    <!-- NAVBAR -->
+    <nav class="topnav">
+        <a class="nav-logo" href="../index.html">
+            <div class="nav-logo-dot"></div>
+            <span>Voyara</span>
+        </a>
+        <ul class="nav-links">
+            <li><a href="../tours_and_destinations/tours_index.html"><i class="fa-solid fa-map-location-dot"></i> Tours</a></li>
+            <li><a href="index.html" class="active"><i class="fa-solid fa-hotel"></i> Stays</a></li>
+            <li><a href="../travel/index.html"><i class="fa-solid fa-plane-departure"></i> Travel</a></li>
+        </ul>
+        <div class="nav-spacer"></div>
+        <button class="nav-cta" onclick="alert('Login feature coming soon!')">
+            <i class="fa-solid fa-circle-user"></i> My Account
+        </button>
+    </nav>
 
-    <header class="hero-section">
-        <div class="hero-content">
-            <h1>Stay In Comfort</h1>
-            <p>Handpicked villas, homestays, and luxury resorts</p>
+    <div class="page-wrap">
+
+        <!-- HERO -->
+        <div class="page-hero">
+            <div>
+                <div class="page-hero-label"><i class="fa-solid fa-hotel"></i> Stays & Villas</div>
+                <h1 class="page-hero-title">
+                    <span class="outlined">Stay</span><br>
+                    In Comfort
+                </h1>
+                <p class="page-hero-desc">Handpicked resorts, cozy homestays and heritage villas across Goa, Ooty and Pondicherry.</p>
+            </div>
+            <div class="page-hero-actions">
+                <a class="btn-secondary" href="../tours_and_destinations/tours_index.html">
+                    <i class="fa-solid fa-map-location-dot"></i> View Tours
+                </a>
+            </div>
         </div>
-    </header>
 
-    <main class="container">
-        
-        <aside class="sidebar">
-            <div class="filter-box">
-                <h3><i class="fa-solid fa-filter"></i> Filter By Location</h3>
-                <div class="filter-buttons">
-                    <button class="filter-btn active" onclick="filterHotels('all')">Show All</button>
-                    <button class="filter-btn" onclick="filterHotels('Goa')">Goa</button>
-                    <button class="filter-btn" onclick="filterHotels('Ooty')">Ooty</button>
-                    <button class="filter-btn" onclick="filterHotels('Pondicherry')">Pondicherry</button>
+        <!-- BREADCRUMB -->
+        <div class="breadcrumb">
+            <a href="../index.html">Home</a>
+            <span class="sep">/</span>
+            <span class="current">Stays & Villas</span>
+        </div>
+
+        <!-- MAIN LAYOUT -->
+        <div class="stays-layout">
+
+            <!-- SIDEBAR -->
+            <aside class="sidebar">
+                <div class="sidebar-header">
+                    <i class="fa-solid fa-sliders"></i> Filter Stays
                 </div>
+
+                <div class="filter-group">
+                    <div class="filter-group-title">By Location</div>
+                    <button class="filter-btn active" onclick="filterHotels('all', this)">
+                        Show All <span class="count">6</span>
+                    </button>
+                    <button class="filter-btn" onclick="filterHotels('Goa', this)">
+                        Goa <span class="count">2</span>
+                    </button>
+                    <button class="filter-btn" onclick="filterHotels('Ooty', this)">
+                        Ooty <span class="count">2</span>
+                    </button>
+                    <button class="filter-btn" onclick="filterHotels('Pondicherry', this)">
+                        Pondicherry <span class="count">2</span>
+                    </button>
+                </div>
+
+                <div class="filter-group">
+                    <div class="filter-group-title">Price Range</div>
+                    <div class="price-range-info">
+                        <strong>₹2,200 – ₹4,500 / night</strong>
+                        All stays include breakfast and free cancellation up to 24 hours before check-in.
+                    </div>
+                </div>
+
+                <div class="filter-group">
+                    <div class="filter-group-title">Explore More</div>
+                    <a class="btn-primary" href="../tours_and_destinations/tours_index.html" style="width:100%;justify-content:center;margin-bottom:10px;">
+                        <i class="fa-solid fa-map-location-dot"></i> Browse Tours
+                    </a>
+                    <a class="btn-secondary" href="../index.html" style="width:100%;justify-content:center;">
+                        <i class="fa-solid fa-house"></i> Back Home
+                    </a>
+                </div>
+            </aside>
+
+            <!-- HOTEL GRID -->
+            <main class="stays-main">
+                <div class="stays-top">
+                    <div class="stays-count">
+                        <strong id="visibleCount">6</strong>
+                        Stays Available
+                    </div>
+                    <div class="active-filter-tag" id="activeFilterTag">
+                        <i class="fa-solid fa-location-dot"></i>
+                        <span id="activeFilterLabel">All Destinations</span>
+                    </div>
+                </div>
+
+                <div class="hotel-grid" id="hotelGrid">
+
+                    <div class="hotel-card" data-location="Goa">
+                        <div class="hotel-img">
+                            <div class="hotel-location-badge">Goa</div>
+                            <div class="hotel-price-badge">₹4,500<small>per night</small></div>
+                            <img src="hotel_images/beach_paradise_resort.png" alt="Beach Paradise Resort">
+                        </div>
+                        <div class="hotel-body">
+                            <div class="hotel-name">Beach Paradise Resort</div>
+                            <div class="hotel-loc"><i class="fa-solid fa-location-dot"></i> Baga Beach, Goa</div>
+                            <p class="hotel-desc">Luxury beachfront stay with a private pool, direct beach access and breathtaking Arabian Sea views.</p>
+                            <div class="hotel-footer">
+                                <button class="hotel-book-btn" onclick="alert('Booking feature coming soon!')">
+                                    <i class="fa-solid fa-calendar-check"></i> Book Now
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="hotel-card" data-location="Goa">
+                        <div class="hotel-img">
+                            <div class="hotel-location-badge">Goa</div>
+                            <div class="hotel-price-badge">₹2,200<small>per night</small></div>
+                            <img src="hotel_images/palm_grove_homestay.jpg" alt="Palm Grove Homestay">
+                        </div>
+                        <div class="hotel-body">
+                            <div class="hotel-name">Palm Grove Homestay</div>
+                            <div class="hotel-loc"><i class="fa-solid fa-location-dot"></i> Anjuna, Goa</div>
+                            <p class="hotel-desc">Cozy traditional cottage nestled among coconut palms. Perfect for a quiet, authentic Goan experience.</p>
+                            <div class="hotel-footer">
+                                <button class="hotel-book-btn" onclick="alert('Booking feature coming soon!')">
+                                    <i class="fa-solid fa-calendar-check"></i> Book Now
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="hotel-card" data-location="Ooty">
+                        <div class="hotel-img">
+                            <div class="hotel-location-badge">Ooty</div>
+                            <div class="hotel-price-badge">₹3,500<small>per night</small></div>
+                            <img src="hotel_images/misty_mountain_resort.jpg" alt="Misty Mountain Resort">
+                        </div>
+                        <div class="hotel-body">
+                            <div class="hotel-name">Misty Mountain Resort</div>
+                            <div class="hotel-loc"><i class="fa-solid fa-location-dot"></i> Doddabetta, Ooty</div>
+                            <p class="hotel-desc">Wake up to clouds rolling over the Nilgiri hills. A serene mountain retreat with bonfire evenings.</p>
+                            <div class="hotel-footer">
+                                <button class="hotel-book-btn" onclick="alert('Booking feature coming soon!')">
+                                    <i class="fa-solid fa-calendar-check"></i> Book Now
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="hotel-card" data-location="Ooty">
+                        <div class="hotel-img">
+                            <div class="hotel-location-badge">Ooty</div>
+                            <div class="hotel-price-badge">₹2,800<small>per night</small></div>
+                            <img src="hotel_images/hilltop_cottage.jpg" alt="Hilltop Cottage">
+                        </div>
+                        <div class="hotel-body">
+                            <div class="hotel-name">Hilltop Cottage</div>
+                            <div class="hotel-loc"><i class="fa-solid fa-location-dot"></i> Botanical Garden Road</div>
+                            <p class="hotel-desc">Colonial-style cottage with sweeping valley views. Perfect for families and weekend getaways.</p>
+                            <div class="hotel-footer">
+                                <button class="hotel-book-btn" onclick="alert('Booking feature coming soon!')">
+                                    <i class="fa-solid fa-calendar-check"></i> Book Now
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="hotel-card" data-location="Pondicherry">
+                        <div class="hotel-img">
+                            <div class="hotel-location-badge">Pondicherry</div>
+                            <div class="hotel-price-badge">₹3,000<small>per night</small></div>
+                            <img src="hotel_images/ocean_breeze_hotel.jpg" alt="Ocean Breeze Hotel">
+                        </div>
+                        <div class="hotel-body">
+                            <div class="hotel-name">Ocean Breeze Hotel</div>
+                            <div class="hotel-loc"><i class="fa-solid fa-location-dot"></i> Promenade Beach</div>
+                            <p class="hotel-desc">Modern sea-facing hotel steps from the famous promenade. Stunning Bay of Bengal sunrises from your balcony.</p>
+                            <div class="hotel-footer">
+                                <button class="hotel-book-btn" onclick="alert('Booking feature coming soon!')">
+                                    <i class="fa-solid fa-calendar-check"></i> Book Now
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="hotel-card" data-location="Pondicherry">
+                        <div class="hotel-img">
+                            <div class="hotel-location-badge">Pondicherry</div>
+                            <div class="hotel-price-badge">₹2,500<small>per night</small></div>
+                            <img src="hotel_images/french_colony_stay.jpg" alt="French Colony Stay">
+                        </div>
+                        <div class="hotel-body">
+                            <div class="hotel-name">French Colony Stay</div>
+                            <div class="hotel-loc"><i class="fa-solid fa-location-dot"></i> White Town</div>
+                            <p class="hotel-desc">Heritage yellow villa in the heart of the French Quarter. Breakfast on the bougainvillea terrace included.</p>
+                            <div class="hotel-footer">
+                                <button class="hotel-book-btn" onclick="alert('Booking feature coming soon!')">
+                                    <i class="fa-solid fa-calendar-check"></i> Book Now
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </main>
+        </div>
+
+        <!-- FOOTER -->
+        <footer class="page-footer">
+            <div class="footer-brand">
+                <span class="footer-logo">Voyara</span>
+                <p class="footer-tagline">Your gateway to India's most beautiful destinations.</p>
             </div>
-        </aside>
-
-        <div class="hotel-grid">
-            
-            <div class="card" data-location="Goa">
-                <div class="img-container">
-                    <img src="hotel_images/beach_paradise_resort.png" alt="Beach Paradise">
-                    <div class="price-badge">₹4,500</div>
-                </div>
-                <div class="card-content">
-                    <h2>Beach Paradise Resort</h2>
-                    <p class="location"><i class="fa-solid fa-location-dot"></i> Baga Beach, Goa</p>
-                    <p class="desc">Luxury beachfront stay with private pool access.</p>
-                    <button class="btn" onclick="alert('Booking Feature Coming Soon!')">Book Now</button>
-                </div>
+            <div class="footer-col">
+                <h4>Explore</h4>
+                <ul>
+                    <li><a href="../tours_and_destinations/tours_index.html">Tours & Destinations</a></li>
+                    <li><a href="index.html">Stays & Villas</a></li>
+                    <li><a href="../travel/index.html">Travel & Routes</a></li>
+                </ul>
             </div>
-
-            <div class="card" data-location="Goa">
-                <div class="img-container">
-                    <img src="hotel_images/palm_grove_homestay.jpg" alt="Palm Grove">
-                    <div class="price-badge">₹2,200</div>
-                </div>
-                <div class="card-content">
-                    <h2>Palm Grove Homestay</h2>
-                    <p class="location"><i class="fa-solid fa-location-dot"></i> Anjuna, Goa</p>
-                    <p class="desc">Cozy traditional cottage surrounded by coconut trees.</p>
-                    <button class="btn" onclick="alert('Booking Feature Coming Soon!')">Book Now</button>
-                </div>
+            <div class="footer-col">
+                <h4>Destinations</h4>
+                <ul>
+                    <li><a href="../tours_and_destinations/goa.html">Goa</a></li>
+                    <li><a href="../tours_and_destinations/ooty.html">Ooty</a></li>
+                    <li><a href="../tours_and_destinations/pondi.html">Pondicherry</a></li>
+                </ul>
             </div>
+        </footer>
 
-            <div class="card" data-location="Ooty">
-                <div class="img-container">
-                    <img src="hotel_images/misty_mountain_resort.jpg" alt="Misty Mountain">
-                    <div class="price-badge">₹3,500</div>
-                </div>
-                <div class="card-content">
-                    <h2>Misty Mountain Resort</h2>
-                    <p class="location"><i class="fa-solid fa-location-dot"></i> Doddabetta, Ooty</p>
-                    <p class="desc">Wake up to the view of the clouds covering the hills.</p>
-                    <button class="btn" onclick="alert('Booking Feature Coming Soon!')">Book Now</button>
-                </div>
-            </div>
+    </div>
 
-            <div class="card" data-location="Ooty">
-                <div class="img-container">
-                    <img src="hotel_images/hilltop_cottage.jpg" alt="Hilltop Cottage">
-                    <div class="price-badge">₹2,800</div>
-                </div>
-                <div class="card-content">
-                    <h2>Hilltop Cottage</h2>
-                    <p class="location"><i class="fa-solid fa-location-dot"></i> Botanical Garden Rd</p>
-                    <p class="desc">Colonial-style cottage perfect for family getaways.</p>
-                    <button class="btn" onclick="alert('Booking Feature Coming Soon!')">Book Now</button>
-                </div>
-            </div>
+    <script>
+        function filterHotels(loc, btn) {
+            // Update active button
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
 
-            <div class="card" data-location="Pondicherry">
-                <div class="img-container">
-                    <img src="hotel_images/ocean_breeze_hotel.jpg" alt="Ocean Breeze">
-                    <div class="price-badge">₹3,000</div>
-                </div>
-                <div class="card-content">
-                    <h2>Ocean Breeze Hotel</h2>
-                    <p class="location"><i class="fa-solid fa-location-dot"></i> Promenade Beach</p>
-                    <p class="desc">Modern hotel facing the serene Bay of Bengal.</p>
-                    <button class="btn" onclick="alert('Booking Feature Coming Soon!')">Book Now</button>
-                </div>
-            </div>
+            // Update label
+            document.getElementById('activeFilterLabel').textContent =
+                loc === 'all' ? 'All Destinations' : loc;
 
-            <div class="card" data-location="Pondicherry">
-                <div class="img-container">
-                    <img src="hotel_images/french_colony_stay.jpg" alt="French Colony">
-                    <div class="price-badge">₹2,500</div>
-                </div>
-                <div class="card-content">
-                    <h2>French Colony Stay</h2>
-                    <p class="location"><i class="fa-solid fa-location-dot"></i> White Town</p>
-                    <p class="desc">Heritage yellow villa in the heart of the French Quarter.</p>
-                    <button class="btn" onclick="alert('Booking Feature Coming Soon!')">Book Now</button>
-                </div>
-            </div>
+            // Filter cards
+            const cards = document.querySelectorAll('.hotel-card');
+            let visible = 0;
+            cards.forEach(card => {
+                const show = loc === 'all' || card.dataset.location === loc;
+                card.classList.toggle('hidden', !show);
+                if (show) visible++;
+            });
+            document.getElementById('visibleCount').textContent = visible;
+        }
+    </script>
 
-        </div> </main>
-
-    <script src="script.js"></script>
 </body>
 </html>

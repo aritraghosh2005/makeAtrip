@@ -3,44 +3,324 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Bookings | Travel Explorer</title>
-    <link rel="stylesheet" href="destinations.css">
-    <link rel="stylesheet" href="bookings.css">
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <title>My Bookings — Voyara</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Grotesk:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../voyara.css">
+    <style>
+        .bookings-section { padding: 50px 60px 80px; }
+
+        /* EMPTY STATE */
+        .empty-state {
+            text-align: center;
+            padding: 80px 40px;
+            border: var(--border);
+            background: white;
+            box-shadow: var(--shadow);
+        }
+        .empty-icon {
+            width: 72px; height: 72px;
+            background: var(--cream-dark);
+            border: var(--border);
+            display: flex; align-items: center; justify-content: center;
+            margin: 0 auto 22px;
+        }
+        .empty-icon i { font-size: 1.8rem; color: var(--brown); }
+        .empty-state h3 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 2rem; letter-spacing: 0.06em;
+            color: var(--black); margin-bottom: 10px;
+        }
+        .empty-state p {
+            font-size: 0.85rem; color: #7a5a40; margin-bottom: 28px;
+        }
+
+        /* TABLE */
+        .bookings-table-wrap {
+            border: var(--border);
+            box-shadow: var(--shadow-lg);
+            overflow-x: auto;
+        }
+        table {
+            width: 100%; border-collapse: collapse;
+            font-size: 0.85rem;
+        }
+        thead tr {
+            background: var(--brown);
+        }
+        thead th {
+            padding: 16px 20px;
+            font-size: 0.6rem; font-weight: 700;
+            letter-spacing: 0.22em; text-transform: uppercase;
+            color: var(--cream); text-align: left;
+            border-right: 3px solid rgba(242,232,220,0.2);
+            white-space: nowrap;
+        }
+        thead th:last-child { border-right: none; }
+        tbody tr {
+            background: white;
+            border-bottom: 2px solid var(--black);
+            transition: background 0.15s;
+        }
+        tbody tr:last-child { border-bottom: none; }
+        tbody tr:hover { background: #fffaf4; }
+        tbody td {
+            padding: 16px 20px;
+            border-right: 2px solid #e8d9c5;
+            color: var(--black);
+        }
+        tbody td:last-child { border-right: none; }
+        .td-activity { font-weight: 700; color: var(--brown); }
+        .td-price {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.2rem; color: var(--brown);
+        }
+
+        .cancel-btn {
+            display: inline-flex; align-items: center; gap: 6px;
+            background: transparent; color: #c0392b;
+            border: 2px solid #c0392b;
+            padding: 6px 12px;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.62rem; font-weight: 700;
+            letter-spacing: 0.12em; text-transform: uppercase;
+            cursor: pointer;
+            transition: background 0.15s, color 0.15s, transform 0.1s, box-shadow 0.1s;
+        }
+        .cancel-btn:hover {
+            background: #c0392b; color: white;
+            transform: translate(-1px,-1px); box-shadow: 3px 3px 0 var(--black);
+        }
+
+        /* ACTIONS BAR */
+        .actions-bar {
+            display: flex; align-items: center;
+            justify-content: space-between; gap: 14px;
+            margin-bottom: 28px; flex-wrap: wrap;
+        }
+        .booking-count {
+            font-size: 0.68rem; font-weight: 700;
+            letter-spacing: 0.14em; text-transform: uppercase; color: var(--brown);
+        }
+        .booking-count strong {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.8rem; color: var(--black);
+            display: block; line-height: 1;
+        }
+        .clear-btn {
+            display: inline-flex; align-items: center; gap: 8px;
+            background: #c0392b; color: white;
+            border: var(--border); box-shadow: var(--shadow);
+            padding: 11px 20px;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.72rem; font-weight: 700;
+            letter-spacing: 0.1em; text-transform: uppercase;
+            cursor: pointer;
+            transition: transform 0.12s, box-shadow 0.12s;
+        }
+        .clear-btn:hover { transform: translate(-2px,-2px); box-shadow: var(--shadow-lg); }
+        .clear-btn:active { transform: translate(2px,2px); box-shadow: 2px 2px 0 var(--black); }
+
+        /* TOTAL ROW */
+        .total-row {
+            display: flex; align-items: center; justify-content: flex-end; gap: 16px;
+            margin-top: 20px; padding: 18px 22px;
+            background: var(--brown); border: var(--border);
+            box-shadow: var(--shadow);
+        }
+        .total-row span {
+            font-size: 0.65rem; font-weight: 700;
+            letter-spacing: 0.2em; text-transform: uppercase; color: rgba(242,232,220,0.7);
+        }
+        .total-row .total-val {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 2rem; color: var(--cream); letter-spacing: 0.04em;
+        }
+
+        @media (max-width: 900px) {
+            .bookings-section { padding: 36px 24px 60px; }
+            .actions-bar { flex-direction: column; align-items: flex-start; }
+        }
+    </style>
 </head>
 <body>
 
-    <header class="hero-section">
-        <h1>My Itinerary</h1>
-    </header>
+    <!-- NAVBAR -->
+    <nav class="topnav">
+        <a class="nav-logo" href="../index.html">
+            <div class="nav-logo-dot"></div>
+            <span>Voyara</span>
+        </a>
+        <ul class="nav-links">
+            <li><a href="tours_index.html" class="active"><i class="fa-solid fa-map-location-dot"></i> Tours</a></li>
+            <li><a href="../hotels/index.html"><i class="fa-solid fa-hotel"></i> Stays</a></li>
+            <li><a href="../travel/index.html"><i class="fa-solid fa-plane-departure"></i> Travel</a></li>
+        </ul>
+        <div class="nav-spacer"></div>
+        <button class="nav-cta" onclick="alert('Login feature coming soon!')">
+            <i class="fa-solid fa-circle-user"></i> My Account
+        </button>
+    </nav>
 
-    <main class="container">
-        <h2>My Booked Trips</h2><br>
-        
-        <div id="no-bookings">
-            <p>No bookings found. Start exploring!</p>
+    <div class="page-wrap">
+
+        <!-- HERO -->
+        <div class="page-hero">
+            <div>
+                <div class="page-hero-label"><i class="fa-solid fa-ticket"></i> Your Itinerary</div>
+                <h1 class="page-hero-title">
+                    <span class="outlined">My</span><br>
+                    Bookings
+                </h1>
+                <p class="page-hero-desc">Review, manage and cancel your saved activity bookings all in one place.</p>
+            </div>
+            <div class="page-hero-actions">
+                <a class="btn-secondary" href="tours_index.html">
+                    <i class="fa-solid fa-map-location-dot"></i> Browse Tours
+                </a>
+            </div>
         </div>
 
-        <table id="bookingsTable" >
-            <thead>
-                <tr>
-                    <th>Activity</th>
-                    <th>Date</th>
-                    <th>Persons</th>
-                    <th>Total Price</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody id="bookingsList">
-                </tbody>
-        </table>
-        
-        <div class="booking-actions">
-            <button class="btn" onclick="location.href='tours_index.html'">Back to Home</button>
-            <button class="btn btn-danger" onclick="clearAllBookings()">Clear All Bookings</button>
+        <!-- BREADCRUMB -->
+        <div class="breadcrumb">
+            <a href="../index.html">Home</a>
+            <span class="sep">/</span>
+            <a href="tours_index.html">Tours</a>
+            <span class="sep">/</span>
+            <span class="current">My Bookings</span>
         </div>
-    </main>
 
-    <script src="tours_script.js"></script>
+        <!-- BOOKINGS SECTION -->
+        <div class="bookings-section">
+
+            <!-- EMPTY STATE -->
+            <div class="empty-state" id="no-bookings">
+                <div class="empty-icon"><i class="fa-solid fa-calendar-xmark"></i></div>
+                <h3>No Bookings Yet</h3>
+                <p>You haven't booked any activities. Start exploring and add some!</p>
+                <a class="btn-primary" href="tours_index.html">
+                    <i class="fa-solid fa-map-location-dot"></i> Explore Destinations
+                </a>
+            </div>
+
+            <!-- TABLE SECTION -->
+            <div id="bookings-content" class="hidden">
+                <div class="actions-bar">
+                    <div class="booking-count">
+                        <strong id="bookingCount">0</strong>
+                        Bookings Saved
+                    </div>
+                    <button class="clear-btn" onclick="clearAllBookings()">
+                        <i class="fa-solid fa-trash"></i> Clear All Bookings
+                    </button>
+                </div>
+
+                <div class="bookings-table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th><i class="fa-solid fa-compass"></i> &nbsp;Activity</th>
+                                <th><i class="fa-solid fa-calendar"></i> &nbsp;Date</th>
+                                <th><i class="fa-solid fa-users"></i> &nbsp;Persons</th>
+                                <th><i class="fa-solid fa-indian-rupee-sign"></i> &nbsp;Total</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="bookingsList"></tbody>
+                    </table>
+                </div>
+
+                <div class="total-row">
+                    <span>Grand Total</span>
+                    <div class="total-val">₹<span id="grandTotal">0</span></div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- FOOTER -->
+        <footer class="page-footer">
+            <div class="footer-brand">
+                <span class="footer-logo">Voyara</span>
+                <p class="footer-tagline">Your gateway to India's most beautiful destinations.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Explore</h4>
+                <ul>
+                    <li><a href="tours_index.html">Tours & Destinations</a></li>
+                    <li><a href="../hotels/index.html">Stays & Villas</a></li>
+                    <li><a href="../travel/index.html">Travel & Routes</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Destinations</h4>
+                <ul>
+                    <li><a href="goa.html">Goa</a></li>
+                    <li><a href="ooty.html">Ooty</a></li>
+                    <li><a href="pondi.html">Pondicherry</a></li>
+                </ul>
+            </div>
+        </footer>
+
+    </div>
+
+    <script>
+        function displayBookings() {
+            const saved = JSON.parse(localStorage.getItem('userBookings')) || [];
+            const noBookEl = document.getElementById('no-bookings');
+            const contentEl = document.getElementById('bookings-content');
+            const listEl = document.getElementById('bookingsList');
+
+            if (saved.length === 0) {
+                noBookEl.classList.remove('hidden');
+                contentEl.classList.add('hidden');
+                return;
+            }
+
+            noBookEl.classList.add('hidden');
+            contentEl.classList.remove('hidden');
+            document.getElementById('bookingCount').textContent = saved.length;
+
+            let grand = 0;
+            listEl.innerHTML = saved.map((b, i) => {
+                grand += Number(b.total) || 0;
+                return `
+                    <tr>
+                        <td>${i + 1}</td>
+                        <td class="td-activity">${b.activity}</td>
+                        <td>${b.date}</td>
+                        <td>${b.persons}</td>
+                        <td class="td-price">₹${b.total}</td>
+                        <td>
+                            <button class="cancel-btn" onclick="deleteBooking(${i})">
+                                <i class="fa-solid fa-xmark"></i> Cancel
+                            </button>
+                        </td>
+                    </tr>`;
+            }).join('');
+
+            document.getElementById('grandTotal').textContent = grand.toLocaleString('en-IN');
+        }
+
+        function deleteBooking(index) {
+            let bookings = JSON.parse(localStorage.getItem('userBookings')) || [];
+            bookings.splice(index, 1);
+            localStorage.setItem('userBookings', JSON.stringify(bookings));
+            displayBookings();
+        }
+
+        function clearAllBookings() {
+            if (confirm('Cancel all bookings? This cannot be undone.')) {
+                localStorage.removeItem('userBookings');
+                displayBookings();
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', displayBookings);
+    </script>
+
 </body>
 </html>
