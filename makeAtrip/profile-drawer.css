@@ -1,0 +1,222 @@
+/* ── Profile Drawer ── */
+
+#profile-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(17,16,16,0.5);
+    z-index: 1900;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s;
+}
+#profile-overlay.open {
+    opacity: 1;
+    pointer-events: all;
+}
+
+#profile-drawer {
+    position: fixed;
+    top: 0; right: 0;
+    width: 360px;
+    max-width: 100vw;
+    height: 100vh;
+    background: #F2E8DC;
+    border-left: 3px solid #111010;
+    box-shadow: -6px 0 0 #111010;
+    z-index: 1901;
+    display: flex;
+    flex-direction: column;
+    transform: translateX(100%);
+    transition: transform 0.28s cubic-bezier(0.4,0,0.2,1);
+}
+#profile-drawer.open {
+    transform: translateX(0);
+}
+
+/* Header */
+#drawer-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 24px;
+    background: #8B4513;
+    border-bottom: 3px solid #111010;
+    flex-shrink: 0;
+}
+#drawer-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+#drawer-logo-dot {
+    width: 8px; height: 8px;
+    background: #FF6B6B;
+    border: 2px solid #111010;
+    border-radius: 50%;
+}
+#drawer-logo span {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.4rem;
+    letter-spacing: 0.15em;
+    color: #F2E8DC;
+}
+#drawer-close {
+    background: none;
+    border: none;
+    color: rgba(242,232,220,0.7);
+    font-size: 1rem;
+    cursor: pointer;
+    font-family: 'Space Grotesk', sans-serif;
+    padding: 4px 8px;
+    transition: color 0.15s;
+}
+#drawer-close:hover { color: #F2E8DC; }
+
+/* User info */
+#drawer-user {
+    padding: 28px 24px 22px;
+    border-bottom: 3px solid #111010;
+    flex-shrink: 0;
+}
+#drawer-avatar {
+    width: 60px; height: 60px;
+    background: #8B4513;
+    border: 3px solid #111010;
+    box-shadow: 4px 4px 0 #111010;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 16px;
+}
+#drawer-avatar i { font-size: 1.6rem; color: #F2E8DC; }
+
+#drawer-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.8rem;
+    letter-spacing: 0.05em;
+    color: #111010;
+    line-height: 1;
+    margin-bottom: 4px;
+}
+#drawer-email {
+    font-size: 0.78rem;
+    color: #7a5a40;
+    font-weight: 500;
+}
+
+/* Bookings section */
+#drawer-bookings {
+    flex: 1;
+    overflow-y: auto;
+    padding: 22px 24px;
+}
+#drawer-bookings-label {
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: #7a5a40;
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+#drawer-bookings-label a {
+    color: #8B4513;
+    text-decoration: none;
+    transition: color 0.15s;
+}
+#drawer-bookings-label a:hover { color: #FF6B6B; }
+
+.drawer-booking-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 13px 16px;
+    background: white;
+    border: 2px solid #111010;
+    margin-bottom: 8px;
+    transition: box-shadow 0.15s, transform 0.15s;
+}
+.drawer-booking-item:hover {
+    transform: translate(-2px,-2px);
+    box-shadow: 4px 4px 0 #111010;
+}
+.drawer-booking-icon {
+    width: 36px; height: 36px;
+    background: #F2E8DC;
+    border: 2px solid #111010;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+}
+.drawer-booking-icon i { font-size: 0.9rem; color: #8B4513; }
+.drawer-booking-info { flex: 1; min-width: 0; }
+.drawer-booking-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1rem;
+    letter-spacing: 0.04em;
+    color: #111010;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.drawer-booking-meta {
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #7a5a40;
+    margin-top: 2px;
+}
+.drawer-booking-price {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.1rem;
+    color: #8B4513;
+    flex-shrink: 0;
+}
+
+#drawer-empty {
+    text-align: center;
+    padding: 40px 20px;
+    color: #7a5a40;
+    font-size: 0.82rem;
+}
+#drawer-empty i { font-size: 1.8rem; color: #e8d9c5; display: block; margin-bottom: 10px; }
+
+#drawer-loading {
+    text-align: center;
+    padding: 30px;
+    color: #7a5a40;
+    font-size: 0.82rem;
+}
+
+/* Footer */
+#drawer-footer {
+    padding: 18px 24px;
+    border-top: 3px solid #111010;
+    flex-shrink: 0;
+}
+#drawer-logout {
+    width: 100%;
+    padding: 13px;
+    background: transparent;
+    color: #c0392b;
+    border: 3px solid #c0392b;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: background 0.15s, color 0.15s, transform 0.12s, box-shadow 0.12s;
+}
+#drawer-logout:hover {
+    background: #c0392b;
+    color: white;
+    transform: translate(-2px,-2px);
+    box-shadow: 4px 4px 0 #111010;
+}

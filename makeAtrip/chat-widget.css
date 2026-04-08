@@ -1,0 +1,210 @@
+/* ── Floating chat bubble ──────────────────────────────── */
+#chat-bubble {
+    position: fixed;
+    bottom: 28px;
+    right: 28px;
+    z-index: 1000;
+    width: 58px;
+    height: 58px;
+    border-radius: 50%;
+    background: #8B4513;
+    border: 3px solid #111010;
+    box-shadow: 4px 4px 0px #111010;
+    cursor: pointer;
+    font-size: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.15s ease;
+    color: #F2E8DC;
+}
+
+#chat-bubble:hover {
+    transform: scale(1.08);
+}
+
+/* ── Chat panel ────────────────────────────────────────── */
+#chat-panel {
+    position: fixed;
+    bottom: 100px;
+    right: 28px;
+    z-index: 999;
+    width: 360px;
+    height: 500px;
+    background: #F2E8DC;
+    border: 3px solid #111010;
+    box-shadow: 5px 5px 0px #111010;
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+    transform: translateY(20px) scale(0.95);
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.2s ease;
+}
+
+#chat-panel.open {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+    pointer-events: all;
+}
+
+/* ── Header ────────────────────────────────────────────── */
+#chat-header {
+    background: #8B4513;
+    color: #F2E8DC;
+    padding: 12px 16px;
+    border-bottom: 3px solid #111010;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+#chat-header-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 18px;
+    letter-spacing: 1.5px;
+}
+
+#chat-close {
+    background: none;
+    border: none;
+    color: #F2E8DC;
+    font-size: 20px;
+    cursor: pointer;
+    line-height: 1;
+    padding: 0;
+}
+
+#chat-close:hover {
+    color: #FF6B6B;
+}
+
+/* ── Messages area ─────────────────────────────────────── */
+#chat-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+#chat-messages::-webkit-scrollbar {
+    width: 4px;
+}
+
+#chat-messages::-webkit-scrollbar-thumb {
+    background: #8B4513;
+    border-radius: 2px;
+}
+
+/* ── Message bubbles ───────────────────────────────────── */
+.chat-msg {
+    max-width: 82%;
+    padding: 8px 12px;
+    border-radius: 4px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 14px;
+    line-height: 1.5;
+    word-break: break-word;
+}
+
+.chat-msg.bot {
+    background: white;
+    border: 2px solid #111010;
+    align-self: flex-start;
+    box-shadow: 2px 2px 0px #111010;
+}
+
+.chat-msg.user {
+    background: #8B4513;
+    color: #F2E8DC;
+    border: 2px solid #111010;
+    align-self: flex-end;
+    box-shadow: 2px 2px 0px #111010;
+}
+
+/* Markdown elements inside bot messages */
+.chat-msg.bot p { margin: 0 0 6px; }
+.chat-msg.bot p:last-child { margin-bottom: 0; }
+.chat-msg.bot h2, .chat-msg.bot h3, .chat-msg.bot h4 {
+    font-family: 'Bebas Neue', sans-serif;
+    letter-spacing: 0.04em;
+    margin: 8px 0 4px;
+    color: #8B4513;
+}
+.chat-msg.bot h2 { font-size: 1.1rem; }
+.chat-msg.bot h3 { font-size: 1rem; }
+.chat-msg.bot h4 { font-size: 0.9rem; }
+.chat-msg.bot ul { margin: 4px 0 6px 16px; padding: 0; }
+.chat-msg.bot li { margin-bottom: 2px; }
+.chat-msg.bot strong { font-weight: 700; }
+.chat-msg.bot em { font-style: italic; }
+.chat-msg.bot code {
+    background: #f0e8dc;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    padding: 0 4px;
+    font-size: 0.85em;
+    font-family: monospace;
+}
+.chat-msg.bot hr { border: none; border-top: 2px solid #e0d0c0; margin: 8px 0; }
+
+.chat-msg.typing {
+    background: white;
+    border: 2px solid #111010;
+    align-self: flex-start;
+    color: #888;
+    font-style: italic;
+}
+
+/* ── Input row ─────────────────────────────────────────── */
+#chat-input-row {
+    display: flex;
+    gap: 8px;
+    padding: 12px;
+    border-top: 3px solid #111010;
+    flex-shrink: 0;
+}
+
+#chat-input {
+    flex: 1;
+    padding: 8px 12px;
+    border: 2px solid #111010;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 14px;
+    background: white;
+    border-radius: 4px;
+    outline: none;
+}
+
+#chat-input:focus {
+    border-color: #8B4513;
+}
+
+#chat-send {
+    padding: 8px 16px;
+    background: #FF6B6B;
+    color: white;
+    border: 2px solid #111010;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 16px;
+    letter-spacing: 1px;
+    box-shadow: 3px 3px 0px #111010;
+    transition: transform 0.1s ease;
+    flex-shrink: 0;
+}
+
+#chat-send:hover {
+    transform: translate(-1px, -1px);
+    box-shadow: 4px 4px 0px #111010;
+}
+
+#chat-send:active {
+    transform: translate(1px, 1px);
+    box-shadow: 2px 2px 0px #111010;
+}

@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Route Planner — Voyara</title>
+    <link href="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Grotesk:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --brown:  #8B4513;
+            --brown-dark: #6b3410;
+            --cream:  #F2E8DC;
+            --cream-dark: #e8d9c5;
+            --coral:  #FF6B6B;
+            --black:  #111010;
+            --border: 3px solid var(--black);
+            --shadow: 5px 5px 0 var(--black);
+            --shadow-lg: 8px 8px 0 var(--black);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { height: 100vh; width: 100vw; overflow: hidden; font-family: 'Space Grotesk', sans-serif; }
+
+        /* ── MAP ── */
+        #map { position: absolute; inset: 0; width: 100%; height: 100%; }
+
+        /* ── NAVBAR ── */
+        .topnav {
+            position: absolute; top: 0; left: 0; right: 0;
+            z-index: 100;
+            display: flex; align-items: stretch; height: 58px;
+            border-bottom: var(--border);
+        }
+        .nav-logo {
+            display: flex; align-items: center; gap: 10px;
+            padding: 0 22px; border-right: var(--border);
+            background: var(--brown); text-decoration: none; flex-shrink: 0;
+        }
+        .nav-logo-dot {
+            width: 9px; height: 9px; background: var(--coral);
+            border: 2px solid var(--black); border-radius: 50%;
+        }
+        .nav-logo span {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.45rem; letter-spacing: 0.15em; color: var(--cream);
+        }
+        .nav-title {
+            display: flex; align-items: center; gap: 10px;
+            padding: 0 22px; background: rgba(242,232,220,0.95);
+            border-right: var(--border);
+            font-size: 0.7rem; font-weight: 700;
+            letter-spacing: 0.15em; text-transform: uppercase; color: var(--brown);
+        }
+        .nav-title i { color: var(--coral); }
+        .nav-spacer { flex: 1; background: rgba(242,232,220,0.92); }
+        .nav-back {
+            display: flex; align-items: center; gap: 8px;
+            padding: 0 22px; background: rgba(242,232,220,0.95);
+            border-left: var(--border);
+            font-size: 0.7rem; font-weight: 700;
+            letter-spacing: 0.12em; text-transform: uppercase;
+            color: var(--black); cursor: pointer; text-decoration: none;
+            transition: background 0.15s;
+        }
+        .nav-back:hover { background: var(--brown); color: var(--cream); }
+        .nav-back i { color: var(--brown); transition: color 0.15s; }
+        .nav-back:hover i { color: var(--coral); }
+
+        /* ── CONTROL PANEL ── */
+        .panel {
+            position: absolute;
+            top: 78px; left: 20px;
+            width: 340px;
+            z-index: 50;
+            background: var(--cream);
+            border: var(--border);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .panel-header {
+            background: var(--brown);
+            padding: 18px 22px;
+            border-bottom: var(--border);
+            display: flex; align-items: center; gap: 12px;
+        }
+        .panel-header-icon {
+            width: 38px; height: 38px; flex-shrink: 0;
+            background: var(--coral); border: 2px solid var(--black);
+            display: flex; align-items: center; justify-content: center;
+        }
+        .panel-header-icon i { font-size: 0.9rem; color: var(--black); }
+        .panel-header h2 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.35rem; letter-spacing: 0.08em;
+            color: var(--cream); line-height: 1;
+        }
+        .panel-header p {
+            font-size: 0.62rem; color: rgba(242,232,220,0.65);
+            letter-spacing: 0.08em; margin-top: 2px;
+        }
+
+        .panel-body { padding: 20px 22px; }
+
+        .field-label {
+            font-size: 0.6rem; font-weight: 700;
+            letter-spacing: 0.22em; text-transform: uppercase;
+            color: var(--brown); margin-bottom: 8px; display: block;
+        }
+
+        .dest-select {
+            width: 100%; padding: 12px 14px;
+            border: var(--border); background: white;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.88rem; color: var(--black);
+            outline: none; cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='none'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238B4513' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 14px center;
+            transition: box-shadow 0.15s;
+        }
+        .dest-select:focus { box-shadow: 4px 4px 0 var(--brown); }
+
+        /* ── STATS ── */
+        .stats-row {
+            display: grid; grid-template-columns: 1fr 1fr;
+            border-top: var(--border); border-left: var(--border);
+            margin-top: 18px;
+        }
+        .stat-cell {
+            border-right: var(--border); border-bottom: var(--border);
+            padding: 14px 16px;
+            display: flex; align-items: center; gap: 10px;
+        }
+        .stat-cell i { color: var(--coral); font-size: 1rem; }
+        .stat-val {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.5rem; color: var(--brown); line-height: 1; display: block;
+        }
+        .stat-lbl {
+            font-size: 0.58rem; font-weight: 700;
+            letter-spacing: 0.16em; text-transform: uppercase;
+            color: #888; display: block;
+        }
+
+        /* ── BOOKING SECTION ── */
+        .book-section {
+            border-top: var(--border);
+            padding: 18px 22px 20px;
+        }
+        .book-label {
+            font-size: 0.6rem; font-weight: 700;
+            letter-spacing: 0.22em; text-transform: uppercase;
+            color: var(--brown); margin-bottom: 12px; display: block;
+        }
+        .book-btns {
+            display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0;
+            border: var(--border); border-right: none;
+        }
+        .book-btn {
+            padding: 12px 8px;
+            border: none; border-right: var(--border);
+            cursor: pointer;
+            display: flex; flex-direction: column;
+            align-items: center; gap: 5px;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.62rem; font-weight: 700;
+            letter-spacing: 0.1em; text-transform: uppercase;
+            transition: transform 0.1s, opacity 0.15s;
+        }
+        .book-btn:hover { opacity: 0.85; transform: translateY(-2px); }
+        .book-btn:active { transform: translateY(0); }
+        .book-btn i { font-size: 1.1rem; }
+        .bus-btn   { background: #d63031; color: white; }
+        .train-btn { background: #0984e3; color: white; }
+        .cab-btn   { background: var(--black); color: white; }
+
+        /* ── WARNING ── */
+        .warning-box {
+            margin-top: 14px; padding: 10px 14px;
+            background: #fff3e0; border: 2px solid #e67e22;
+            font-size: 0.72rem; line-height: 1.5; color: #8a4d00;
+            display: flex; gap: 8px; align-items: flex-start;
+        }
+        .warning-box i { color: #e67e22; margin-top: 2px; flex-shrink: 0; }
+
+        /* ── LOCATION STATUS ── */
+        .location-status {
+            display: flex; align-items: center; gap: 8px;
+            margin-top: 14px; padding: 10px 14px;
+            border: 2px solid var(--black); background: white;
+            font-size: 0.68rem; font-weight: 500;
+        }
+        .location-dot {
+            width: 8px; height: 8px; border-radius: 50%;
+            background: #27ae60; flex-shrink: 0;
+            animation: pulse 1.5s infinite;
+        }
+        .location-dot.searching { background: var(--coral); }
+        @keyframes pulse { 0%,100%{opacity:1;} 50%{opacity:0.4;} }
+
+        .hidden { display: none !important; }
+
+        /* ── MOBILE ── */
+        @media (max-width: 600px) {
+            .panel { top: auto; bottom: 0; left: 0; width: 100%; }
+            .topnav .nav-title, .topnav .nav-spacer { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- MAP -->
+    <div id="map"></div>
+
+    <!-- NAVBAR -->
+    <nav class="topnav">
+        <a class="nav-logo" href="../index.html">
+            <div class="nav-logo-dot"></div>
+            <span>Voyara</span>
+        </a>
+        <div class="nav-title">
+            <i class="fa-solid fa-route"></i> Route Planner
+        </div>
+        <div class="nav-spacer"></div>
+        <a class="nav-back" href="../index.html">
+            <i class="fa-solid fa-arrow-left"></i> Back Home
+        </a>
+    </nav>
+
+    <!-- CONTROL PANEL -->
+    <div class="panel">
+        <div class="panel-header">
+            <div class="panel-header-icon"><i class="fa-solid fa-route"></i></div>
+            <div>
+                <h2>Plan Your Journey</h2>
+                <p>Select destination to get route</p>
+            </div>
+        </div>
+
+        <div class="panel-body">
+            <label class="field-label"><i class="fa-solid fa-location-dot"></i> &nbsp;Choose Destination</label>
+            <select class="dest-select" id="destination-select" onchange="calculateRoute()">
+                <option value="" disabled selected>Select a place...</option>
+                <option value="goa">Goa — Beaches & Heritage</option>
+                <option value="pondicherry">Pondicherry — French Colony</option>
+                <option value="ooty">Ooty — Hill Station</option>
+            </select>
+
+            <div class="location-status" id="locationStatus">
+                <div class="location-dot searching" id="locationDot"></div>
+                <span id="locationText">Detecting your location…</span>
+            </div>
+        </div>
+
+        <!-- STATS (hidden until route selected) -->
+        <div id="stats-container" class="hidden">
+            <div class="stats-row">
+                <div class="stat-cell">
+                    <i class="fa-solid fa-road"></i>
+                    <div>
+                        <span class="stat-val" id="distance-text">—</span>
+                        <span class="stat-lbl">Distance</span>
+                    </div>
+                </div>
+                <div class="stat-cell">
+                    <i class="fa-solid fa-clock"></i>
+                    <div>
+                        <span class="stat-val" id="duration-text">—</span>
+                        <span class="stat-lbl">Drive Time</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- BOOKING ACTIONS (hidden until route selected) -->
+        <div id="actions-container" class="hidden">
+            <div class="book-section">
+                <span class="book-label"><i class="fa-solid fa-ticket"></i> &nbsp;Book Your Trip</span>
+                <div class="book-btns">
+                    <button class="book-btn bus-btn" onclick="bookBus()">
+                        <i class="fa-solid fa-bus"></i> RedBus
+                    </button>
+                    <button class="book-btn train-btn" onclick="bookTrain()">
+                        <i class="fa-solid fa-train"></i> Ixigo
+                    </button>
+                    <button class="book-btn cab-btn" onclick="bookCab()">
+                        <i class="fa-solid fa-car"></i> Uber
+                    </button>
+                </div>
+                <div class="warning-box hidden" id="train-warning">
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                    <span id="warning-text"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <link rel="stylesheet" href="../chat-widget.css">
+    <link rel="stylesheet" href="../auth-modal.css">
+    <link rel="stylesheet" href="../profile-drawer.css">
+    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script type="text/babel" src="../chat-widget.jsx"></script>
+    <script type="text/babel" src="../auth-modal.jsx"></script>
+    <script type="text/babel" src="../profile-drawer.jsx"></script>
+    <script src="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js"></script>
+    <script>
+        mapboxgl.accessToken = 'pk.eyJ1IjoiYXJpdHJhZ2hvc2gyMDA1IiwiYSI6ImNtbGwyZ3F0djAzZTkzZHM2NGRqbmx2M2kifQ.8wTtFQTIlfbE3lslQmiyXg';
+
+        const destinations = {
+            goa:         { coords: [73.9699, 15.2865], name: 'Goa',         railhead: 'MAO', warning: '' },
+            pondicherry: { coords: [79.4975, 11.9401], name: 'Pondicherry', railhead: 'VM',  warning: 'Nearest major railhead is Villupuram (40 km away).' },
+            ooty:        { coords: [76.9405, 11.3006], name: 'Ooty',        railhead: 'MTP', warning: 'Train ends at Mettupalayam. Take a cab or the Toy Train for the last leg.' }
+        };
+
+        let userLocation = null;
+
+        const map = new mapboxgl.Map({
+            container: 'map',
+            style: 'mapbox://styles/mapbox/streets-v12',
+            center: [78.9629, 20.5937],
+            zoom: 4
+        });
+        map.addControl(new mapboxgl.NavigationControl(), 'bottom-right');
+
+        navigator.geolocation.getCurrentPosition(
+            pos => {
+                userLocation = [pos.coords.longitude, pos.coords.latitude];
+                map.flyTo({ center: userLocation, zoom: 10 });
+                new mapboxgl.Marker({ color: '#FF6B6B' })
+                    .setLngLat(userLocation)
+                    .setPopup(new mapboxgl.Popup().setHTML('<b>You are here</b>'))
+                    .addTo(map);
+                document.getElementById('locationDot').classList.remove('searching');
+                document.getElementById('locationText').textContent = 'Location detected — select a destination';
+            },
+            () => {
+                userLocation = [80.2707, 13.0827]; // Fallback: Chennai
+                document.getElementById('locationText').textContent = 'Using default location (Chennai)';
+            },
+            { enableHighAccuracy: true }
+        );
+
+        async function calculateRoute() {
+            const destKey = document.getElementById('destination-select').value;
+            if (!destKey || !userLocation) return;
+            const destData = destinations[destKey];
+
+            const url = `https://api.mapbox.com/directions/v5/mapbox/driving/${userLocation[0]},${userLocation[1]};${destData.coords[0]},${destData.coords[1]}?geometries=geojson&access_token=${mapboxgl.accessToken}`;
+
+            try {
+                const data = await (await fetch(url)).json();
+                const route = data.routes[0];
+
+                if (map.getSource('route')) {
+                    map.getSource('route').setData({ type: 'Feature', geometry: route.geometry });
+                } else {
+                    map.addLayer({
+                        id: 'route', type: 'line',
+                        source: { type: 'geojson', data: { type: 'Feature', geometry: route.geometry } },
+                        layout: { 'line-join': 'round', 'line-cap': 'round' },
+                        paint: { 'line-color': '#8B4513', 'line-width': 5, 'line-opacity': 0.85 }
+                    });
+                }
+
+                new mapboxgl.Marker({ color: '#8B4513' })
+                    .setLngLat(destData.coords)
+                    .setPopup(new mapboxgl.Popup().setHTML(`<b>${destData.name}</b>`))
+                    .addTo(map);
+
+                const bounds = new mapboxgl.LngLatBounds();
+                bounds.extend(userLocation); bounds.extend(destData.coords);
+                map.fitBounds(bounds, { padding: 80 });
+
+                document.getElementById('distance-text').textContent = `${(route.distance / 1000).toFixed(0)} km`;
+                document.getElementById('duration-text').textContent = `${(route.duration / 3600).toFixed(1)} hrs`;
+
+                const warnEl = document.getElementById('train-warning');
+                const warnText = document.getElementById('warning-text');
+                if (destData.warning) {
+                    warnText.textContent = destData.warning;
+                    warnEl.classList.remove('hidden');
+                } else {
+                    warnEl.classList.add('hidden');
+                }
+
+                document.getElementById('stats-container').classList.remove('hidden');
+                document.getElementById('actions-container').classList.remove('hidden');
+            } catch (e) {
+                console.error(e);
+                alert('Could not calculate route. Check your internet connection.');
+            }
+        }
+
+        function bookBus() {
+            const dest = document.getElementById('destination-select').value;
+            window.open(`https://www.redbus.in/bus-tickets/search?fromCity=YourLocation&toCity=${dest}`, '_blank');
+        }
+        function bookTrain() {
+            const destKey = document.getElementById('destination-select').value;
+            window.open(`https://www.ixigo.com/trains/${destinations[destKey].railhead}`, '_blank');
+        }
+        function bookCab() {
+            window.open('https://m.uber.com/ul/', '_blank');
+        }
+    </script>
+</body>
+</html>
