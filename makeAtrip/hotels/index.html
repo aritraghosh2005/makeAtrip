@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stays & Villas — Voyara</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Grotesk:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../voyara.css">
+    <style>
+        .dest-section { padding: 56px 60px 80px; }
+        .section-header-wrap { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 36px; flex-wrap: wrap; gap: 20px; }
+        .section-label { display: inline-flex; align-items: center; gap: 8px; background: var(--coral); border: var(--border); padding: 6px 16px; margin-bottom: 14px; font-size: 0.6rem; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; }
+        .section-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(2.2rem, 4vw, 3.4rem); letter-spacing: 0.03em; line-height: 1; }
+        
+        /* Search Bar */
+        .search-wrap { display: flex; align-items: center; border: var(--border); background: white; padding: 5px 15px; width: 100%; max-width: 400px; box-shadow: var(--shadow); transition: box-shadow 0.2s; }
+        .search-wrap:focus-within { box-shadow: var(--shadow-lg); }
+        .search-wrap i { color: var(--brown); font-size: 1.2rem; margin-right: 10px; }
+        .search-wrap input { border: none; outline: none; padding: 10px 0; width: 100%; font-family: 'Space Grotesk', sans-serif; font-size: 0.9rem; color: var(--black); }
+
+        /* City Grid - FORCED 3 ITEMS PER ROW TO MATCH TOURS */
+        #city-list { 
+            display: grid; 
+            grid-template-columns: repeat(3, 1fr); /* Exactly 3 per row */
+            gap: 30px; /* Space between cards */
+        }
+        
+        #city-list .card { border: var(--border); background: white; cursor: pointer; display: flex; flex-direction: column; position: relative; overflow: hidden; }
+        #city-list .card:hover { z-index: 2; box-shadow: var(--shadow-lg); transform: translateY(-5px); transition: all 0.3s ease; }
+        #city-list .img-container { height: 260px; overflow: hidden; border-bottom: var(--border); position: relative; }
+        #city-list .img-container img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s, filter 0.4s; filter: sepia(10%); }
+        #city-list .card:hover .img-container img { transform: scale(1.06); filter: sepia(0%); }
+        #city-list .card-content { padding: 26px; flex: 1; display: flex; flex-direction: column; background: white; }
+        #city-list .card-content h2 { font-family: 'Bebas Neue', sans-serif; font-size: 2.2rem; letter-spacing: 0.04em; color: var(--black); line-height: 1; margin-bottom: 10px; }
+        #city-list .card-content p { font-size: 0.82rem; line-height: 1.65; color: #5a3e2b; flex: 1; margin-bottom: 22px; }
+        #city-list .card-content .btn { display: inline-flex; align-items: center; gap: 8px; background: var(--brown); color: var(--cream); border: var(--border); box-shadow: var(--shadow); padding: 11px 20px; width: fit-content; font-family: 'Space Grotesk', sans-serif; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; transition: transform 0.12s, box-shadow 0.12s, background 0.12s; }
+        #city-list .card:hover .card-content .btn { background: var(--coral); color: var(--black); transform: translate(-2px,-2px); box-shadow: var(--shadow-lg); }
+
+        /* Responsive scaling */
+        @media (max-width: 1024px) { #city-list { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 768px) { #city-list { grid-template-columns: 1fr; } .dest-section { padding: 36px 24px 60px; } }
+    </style>
+</head>
+<body>
+
+    <nav class="topnav">
+        <a class="nav-logo" href="../index.html"><div class="nav-logo-dot"></div><span>Voyara</span></a>
+        <ul class="nav-links">
+            <li><a href="../tours_and_destinations/tours_index.html"><i class="fa-solid fa-map-location-dot"></i> Tours</a></li>
+            <li><a href="index.html" class="active"><i class="fa-solid fa-hotel"></i> Stays</a></li>
+            <li><a href="../travel/index.html"><i class="fa-solid fa-plane-departure"></i> Travel</a></li>
+        </ul>
+        <div class="nav-spacer"></div>
+        <button class="nav-cta" onclick="alert('Login coming soon!')"><i class="fa-solid fa-circle-user"></i> My Account</button>
+    </nav>
+
+    <div class="page-wrap">
+        <div class="page-hero">
+            <div>
+                <div class="page-hero-label"><i class="fa-solid fa-hotel"></i> Stays & Villas</div>
+                <h1 class="page-hero-title"><span class="outlined">Stay</span><br>In Comfort</h1>
+                <p class="page-hero-desc">Select a destination to view our handpicked resorts, cozy homestays, and heritage villas.</p>
+            </div>
+            <div class="page-hero-actions">
+                <a class="btn-secondary" href="../tours_and_destinations/bookings.html"><i class="fa-solid fa-ticket"></i> My Bookings</a>
+            </div>
+        </div>
+
+        <div class="breadcrumb">
+            <a href="../index.html">Home</a><span class="sep">/</span><span class="current">Stays & Villas</span>
+        </div>
+
+        <div class="dest-section">
+            <div class="section-header-wrap">
+                <div>
+                    <div class="section-label"><i class="fa-solid fa-location-dot"></i> Choose a Destination</div>
+                    <h2 class="section-title">Where Do You<br>Want to Stay?</h2>
+                </div>
+                <div class="search-wrap">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" id="citySearch" placeholder="Search for a city (e.g., Goa, Ooty)..." onkeyup="searchCities()">
+                </div>
+            </div>
+
+            <main id="city-list"></main>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="stays_script.js"></script>
+</body>
+</html>
